@@ -29,7 +29,21 @@ class Sintatico:
     def declaracao_global(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
             self.declaracao()
-       
+        elif self.match('SE'):
+            self.if_declaracao()
+        elif self.match('ENQUANTO'):
+            self.while_declaracao()
+        elif self.match('INTERROMPER'):
+            self.break_declaracao()
+        elif self.match('CONTINUAR'):
+            self.continue_declaracao()
+        elif self.match('IMPRIMIR'):
+            self.echo_declaracao()
+        elif self.match('RETORNAR'):
+            self.return_declaracao()
+        else:
+            self.expression_declaracao()
+            
 
     def declaracao(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
