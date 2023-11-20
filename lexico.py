@@ -125,7 +125,7 @@ def analisador_lexico(codigo_fonte):
 
     return tokens
 
-# Teste
+# Codigo fonte
 codigo_fonte = """
 variavel_inteira = 5
 variavel_booleana = verdadeiro

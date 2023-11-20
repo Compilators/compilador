@@ -5,26 +5,60 @@ from lexico import analisador_lexico
 class Sintatico:
     def __init__(self, tokens):
         self.tokens = tokens
-        self.current_token = None
-        self.next_token()
+        self.atual_token = None
+        self.prox_token()
 
-    def next_token(self):
+    def prox_token(self):
         try:
-            self.current_token = next(self.tokens)
+            self.atual_token = next(self.tokens)
         except StopIteration:
-            self.current_token = None
+            self.atual_token = None
 
-    def match(self, *token_types):
-        if self.current_token and self.current_token[0] in token_types:
-            self.next_token()
+    def match(self, *tipos_token):
+        if self.atual_token and self.atual_token[0] in tipos_token:
+            self.prox_token()
             return True
         else:
-            print(f"Erro: Esperado {', '.join(token_types)}, mas encontrou {self.current_token}")
+            print(f"Erro: Esperado {', '.join(tipos_token)}, mas encontrou {self.atual_token}")
             return False
 
-    def program(self):
-        while self.current_token:
+    def programa(self):
+        while self.atual_token:
             self.statement()
+
+    def declaracao_global(self):
+        if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
+            self.declaracao()
+       
+
+    def declaracao(self):
+        if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
+            self.declaracao_tipo()
+        else:
+            self.match('ID')
+            self.assignment()
+            self.match('PONTO_E_VIRGULA')
+
+    def declaracao_tipo(self):
+        if self.match('ID'):
+            if self.match('ABRE_PARENTESE'):
+                self.parameter_list()
+                self.match('FECHA_PARENTESE')
+                self.block()
+            elif self.match('DOIS_PONTOS'):
+                self.match('DOIS_PONTOS')
+                self.tipo_especifico()
+                self.match('PONTO_E_VIRGULA')
+            elif self.match('PONTO_E_VIRGULA'):
+                pass
+            else:
+                self.assignment()
+                self.match('PONTO_E_VIRGULA')
+        else:
+            print("Erro: Esperado ID após o tipo de declaração")
+
+    def tipo_especifico(self):
+            self.match('INTEIRO', 'BOOLEANO', 'VAZIO')
 
 
 # Codigo fonte
