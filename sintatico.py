@@ -60,7 +60,6 @@ class Sintatico:
         else:
             self.match('ID')
             self.atribuicao()
-            self.match('PONTO_E_VIRGULA')
 
     def tipo_declaracao(self):
         if self.match('ID'):
@@ -71,12 +70,8 @@ class Sintatico:
             elif self.match('DOIS_PONTOS'):
                 self.match('DOIS_PONTOS')
                 self.tipo_especifico()
-                self.match('PONTO_E_VIRGULA')
-            elif self.match('PONTO_E_VIRGULA'):
-                pass
             else:
                 self.atribuicao()
-                self.match('PONTO_E_VIRGULA')
         else:
             print("Erro: Esperado ID após o tipo de declaração")
 
@@ -117,24 +112,20 @@ class Sintatico:
         self.block()
 
     def break_condicional(self):
-        self.match('PONTO_E_VIRGULA')
+        self.match('INTERROMPER')
 
     def continue_condicional(self):
         self.match('CONTINUAR')
-        self.match('PONTO_E_VIRGULA')
 
     def echo_condicional(self):
         self.match('STRING')
-        self.match('PONTO_E_VIRGULA')
 
     def return_condicional(self):
-        if not self.match('PONTO_E_VIRGULA'):
-            self.expressao()
-            self.match('PONTO_E_VIRGULA')
+        self.match('RETORNAR')
+        self.expressao()
 
     def expressao_declaracao(self):
         self.expressao()
-        self.match('PONTO_E_VIRGULA')
 
     def expressao(self):
         if self.atual_token and self.atual_token[0] == 'NUMERO':

@@ -169,4 +169,3 @@ se resultado_aritmetico == 10 ou (variavel_inteira != 5 e variavel_booleana e re
 """
 
 tokens = analisador_lexico(codigo_fonte)
-print (tokens)
