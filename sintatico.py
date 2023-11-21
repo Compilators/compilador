@@ -32,7 +32,7 @@ class Sintatico:
 
     def programa(self):
         while self.atual_token:
-            self.statement()
+            self.condicionais()
 
     def condicionais(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
