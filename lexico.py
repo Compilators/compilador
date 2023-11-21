@@ -57,9 +57,6 @@ def analisador_lexico(codigo_fonte):
         elif codigo_fonte[pos] == ',':
             tokens.append(('VIRGULA', ','))
             pos += 1
-        elif codigo_fonte[pos] == ';':
-            tokens.append(('PONTO_E_VIRGULA', ';'))
-            pos += 1
         elif codigo_fonte[pos] == ':':
             tokens.append(('DOIS_PONTOS', ':'))
             pos += 1
@@ -172,3 +169,4 @@ se resultado_aritmetico == 10 ou (variavel_inteira != 5 e variavel_booleana e re
 """
 
 tokens = analisador_lexico(codigo_fonte)
+print (tokens)
