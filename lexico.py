@@ -154,3 +154,5 @@ def analisador_lexico(codigo_fonte):
 # """
 
 # tokens = analisador_lexico(codigo_fonte)
+# for token in tokens:
+#     print(token)

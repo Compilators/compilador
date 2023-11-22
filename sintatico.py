@@ -143,6 +143,9 @@ class Sintatico:
         elif self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
             self.prox_token()
             self.expressao()
+        elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
+            self.prox_token()
+            self.expressao()
         else:
             print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
 
