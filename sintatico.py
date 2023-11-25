@@ -88,6 +88,13 @@ class Sintatico:
         else:
             print("Erro: Esperado 'ID' para atribuição ou chamada de função")
 
+    def block(self):
+        if not self.match('ABRE_CHAVE'):
+            raise Exception(f"ABRE CHAVE não encontrado.")
+        self.programa()
+        if not self.match('FECHA_CHAVE'):
+            raise Exception(f"FECHA CHAVE não encontrado.")
+
     def if_condicional(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parêntese não encontrado.")
