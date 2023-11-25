@@ -139,7 +139,7 @@ class Sintatico:
         if self.atual_token and self.atual_token[0] == 'NUMERO':
             self.prox_token()
         elif self.atual_token and self.atual_token[0] == 'ID':
-            self.atribuicao_or_function_call()
+            self.atribuicao_ou_chamadaFuncao()
         elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
             self.match('ABRE_PARENTESE')
             self.expressao()
@@ -164,7 +164,7 @@ class Sintatico:
             self.expressao()
 
 
-    def atribuicao_or_function_call(self):
+    def atribuicao_ou_chamadaFuncao(self):
         identifier = self.atual_token[1]
         self.match('ID')
         if self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
