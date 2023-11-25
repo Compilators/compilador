@@ -192,7 +192,7 @@ class Sintatico:
         if not self.match('ID'):
             raise Exception(f"Erro: 'ID' esperado, mas encontrado {self.atual_token}")
         if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Erro: Abre parêntese não encontrado.")
+            raise Exception(f"Erro: Abre parêntese não encontrado, mas encontrado {self.atual_token}.")
         self.lista_parametros()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parêntese não encontrado, mas encontrado {self.atual_token}.")
