@@ -32,12 +32,12 @@ class Sintatico:
 
     def programa(self):
         while self.atual_token:
-            self.condicionais()
+            self.token()
             if self.atual_token == None:
                 print("Compilacao finalizada com sucesso.")
                 break
 
-    def condicionais(self):
+    def token(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
             self.declaracao()
         elif self.match('SE'):
@@ -104,13 +104,13 @@ class Sintatico:
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Fecha parentese nao encontrado.")
-        self.condicionais()
+        self.token()
         if self.match('SENAO'):
-            self.condicionais()
+            self.token()
 
 
     def else_condicional(self):
-        self.condicionais()
+        self.token()
 
     def while_condicional(self):
         if not self.match('ABRE_PARENTESE'):
