@@ -27,7 +27,7 @@ class Sintatico:
         elif self.atual_token and self.atual_token[0] == 'FECHA_PARENTESE':
             return True 
         else:
-            print(f"Erro: Esperado {', '.join(tipo_token)}, mas encontrou {self.atual_token}")
+            #print(f"Erro: Esperado {', '.join(tipo_token)}, mas encontrou {self.atual_token}")
             return False
 
     def programa(self):
@@ -95,20 +95,25 @@ class Sintatico:
         self.match('FECHA_CHAVE')
 
     def if_condicional(self):
-        self.match('ABRE_PARENTESE')
+        if not self.match('ABRE_PARENTESE'):
+            raise Exception(f"Abre parêntese não encontrado.")
         self.expressao()
-        self.match('FECHA_PARENTESE')
-        self.condicionais() 
+        if not self.match('FECHA_PARENTESE'):
+            raise Exception(f"Fecha parêntese não encontrado.")
+        self.condicionais()
         if self.match('SENAO'):
             self.condicionais()
+
 
     def else_condicional(self):
         self.condicionais()
 
     def while_condicional(self):
-        self.match('ABRE_PARENTESE')
+        if not self.match('ABRE_PARENTESE'):
+            raise Exception(f"Abre parêntese não encontrado.")
         self.expressao()
-        self.match('FECHA_PARENTESE')
+        if not self.match('FECHA_PARENTESE'):
+            raise Exception(f"Fecha parêntese não encontrado.")
         self.block()
 
     def break_condicional(self):
@@ -164,8 +169,6 @@ class Sintatico:
         elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
             self.expressao()
-        else:
-            print(f"Erro: Esperado '(', '=' ou 'funcao' após o identificador {identifier}")
 
     def lista_parametros(self):
         while self.match('INTEIRO') or self.match('BOOLEANO'):
@@ -208,21 +211,21 @@ imprimir_ola()
 
 resultado = somar(3, 4)
 
-se resultado > 10:
+se (resultado > 10):
     imprimir("Resultado e maior que 10.")
 senao:
     imprimir("Resultado e 10 ou menor.")
 
 contador = 0
-enquanto contador < resultado:
+enquanto (contador < resultado):
     imprimir(f"Contando: {contador}")
     contador += 1
 
-    se contador == 5:
+    se (contador == 5):
         imprimir("Pulando 5")
         continuar
     
-    se contador == 7:
+    se (contador == 7):
         imprimir("Parando no 7")
         interromper
 
@@ -233,7 +236,7 @@ imprimir(f"Variável booleana: {variavel_booleana}")
 
 resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
 
-se resultado_aritmetico == 10 ou (variavel_inteira != 5 e variavel_booleana e resultado <= 10):
+se (resultado_aritmetico == 10):
     imprimir("Alguma condicao booleana foi atendida.")
 """
 
