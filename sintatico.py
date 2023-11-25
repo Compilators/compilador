@@ -61,7 +61,8 @@ class Sintatico:
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
             self.tipo_declaracao()
         else:
-            self.match('ID')
+            if not self.match('ID'):
+                raise Exception(f"ID nao encontrado.")
             self.atribuicao()
 
     def tipo_declaracao(self):
