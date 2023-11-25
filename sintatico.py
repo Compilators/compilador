@@ -33,6 +33,9 @@ class Sintatico:
     def programa(self):
         while self.atual_token:
             self.condicionais()
+            if self.atual_token == None:
+                print("Compilacao finalizada com sucesso.")
+                break
 
     def condicionais(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
