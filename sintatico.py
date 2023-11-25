@@ -66,7 +66,6 @@ class Sintatico:
             if self.match('ABRE_PARENTESE'):
                 self.lista_parametros()
                 self.match('FECHA_PARENTESE')
-                self.block()
             elif self.match('DOIS_PONTOS'):
                 self.match('DOIS_PONTOS')
                 self.tipo_especifico()
@@ -89,11 +88,6 @@ class Sintatico:
         else:
             print("Erro: Esperado 'ID' para atribuição ou chamada de função")
 
-    def block(self):
-        self.match('ABRE_CHAVE')
-        self.programa()
-        self.match('FECHA_CHAVE')
-
     def if_condicional(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parêntese não encontrado.")
@@ -114,7 +108,6 @@ class Sintatico:
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Fecha parêntese não encontrado.")
-        self.block()
 
     def break_condicional(self):
         self.match('INTERROMPER')
@@ -192,7 +185,6 @@ class Sintatico:
         self.match('ABRE_PARENTESE')
         self.lista_parametros()
         self.match('FECHA_PARENTESE')
-        self.block()
 
 # Codigo fonte 
 codigo_fonte = """
