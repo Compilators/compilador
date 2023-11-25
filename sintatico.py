@@ -55,7 +55,7 @@ class Sintatico:
         elif self.match('RETORNAR'):
             self.return_condicional()
         else:
-            self.expressao_declaracao()
+            self.expressao()
 
     def declaracao(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
@@ -92,13 +92,6 @@ class Sintatico:
         else:
             print("Erro: Esperado 'ID' para atribuicao ou chamada de funcao")
 
-    def block(self):
-        if not self.match('ABRE_CHAVE'):
-            raise Exception(f"ABRE CHAVE nao encontrado.")
-        self.programa()
-        if not self.match('FECHA_CHAVE'):
-            raise Exception(f"FECHA CHAVE nao encontrado.")
-
     def if_condicional(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parentese nao encontrado.")
@@ -108,7 +101,6 @@ class Sintatico:
         self.token()
         if self.match('SENAO'):
             self.token()
-
 
     def else_condicional(self):
         self.token()
@@ -133,9 +125,6 @@ class Sintatico:
         self.match('RETORNAR')
         self.expressao()
 
-    def expressao_declaracao(self):
-        self.expressao()
-
     def expressao(self):
         if self.atual_token and self.atual_token[0] == 'NUMERO':
             self.prox_token()
@@ -157,6 +146,10 @@ class Sintatico:
             self.expressao()
         elif self.atual_token and self.atual_token[0] == 'BOOLEANO':
             self.prox_token()
+        elif self.atual_token and self.atual_token[0] == 'CONTINUAR':
+            self.continue_condicional()
+        elif self.atual_token and self.atual_token[0] == 'INTERROMPER':
+            self.break_condicional()
         else:
             print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
 
