@@ -38,49 +38,55 @@ class Sintatico:
                 break
 
     def token(self):
-        if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
-            self.declaracao()
-        elif self.match('SE'):
-            self.if_condicional()
-        elif self.match('SENAO'):
-            self.else_condicional()
-        elif self.match('ENQUANTO'):
-            self.while_condicional()
-        elif self.match('IMPRIMIR'):
-            self.echo_condicional()
-        else:
-            if self.atual_token and self.atual_token[0] == 'NUMERO':
+        match self.atual_token[0]:
+            case 'NUMERO':
                 self.prox_token()
-            elif self.atual_token and self.atual_token[0] == 'ID':
+            case 'ID':
                 self.atribuicao_ou_chamadaFuncao()
-            elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
+            case 'ABRE_PARENTESE':
                 self.match('ABRE_PARENTESE')
                 self.token()
                 self.match('FECHA_PARENTESE')
-            elif self.atual_token and self.atual_token[0] == 'FUNCAO':
+            case 'FUNCAO':
                 self.funcao_declaracao()
-            elif self.atual_token and self.atual_token[0] == 'STRING':
+            case 'STRING':
                 self.match('STRING')
-            elif self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+            case 'MAIS' | 'MENOS' | 'VEZES' | 'DIVIDE':
                 self.prox_token()
                 self.token()
-            elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
+            case 'ATRIBUICAO':
                 self.prox_token()
                 self.token()
-            elif self.atual_token and self.atual_token[0] == 'BOOLEANO':
+            case 'DOIS_PONTOS':
                 self.prox_token()
-            elif self.atual_token and self.atual_token[0] == 'CONTINUAR':
+                self.token()
+            case 'VIRGULA':
+                self.prox_token()
+                self.token()
+            case 'FECHA_PARENTESE':
+                self.prox_token()
+            case 'SENAO':
+                self.prox_token()
+            case 'SE':
+                self.prox_token()
+            case 'ENQUANTO':
+                self.prox_token()
+            case 'IMPRIMIR':
+                self.prox_token()
+            case 'BOOLEANO':
+                self.prox_token()
+            case 'CONTINUAR':
                 self.continue_condicional()
-            elif self.atual_token and self.atual_token[0] == 'INTERROMPER':
+            case 'INTERROMPER':
                 self.break_condicional()
-            elif self.atual_token and self.atual_token[0] == 'RETORNAR':
+            case 'RETORNAR':
                 self.return_condicional()
-            else:
+            case _:
                 print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
 
-            while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
-                self.prox_token()
-                self.token()
+        while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
+            self.prox_token()
+            self.token()
 
 
     def declaracao(self):
