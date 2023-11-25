@@ -46,24 +46,49 @@ class Sintatico:
             self.else_condicional()
         elif self.match('ENQUANTO'):
             self.while_condicional()
-        elif self.match('INTERROMPER'):
-            self.break_condicional()
-        elif self.match('CONTINUAR'):
-            self.continue_condicional()
         elif self.match('IMPRIMIR'):
             self.echo_condicional()
-        elif self.match('RETORNAR'):
-            self.return_condicional()
         else:
-            self.expressao()
+            if self.atual_token and self.atual_token[0] == 'NUMERO':
+                self.prox_token()
+            elif self.atual_token and self.atual_token[0] == 'ID':
+                self.atribuicao_ou_chamadaFuncao()
+            elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
+                self.match('ABRE_PARENTESE')
+                self.token()
+                self.match('FECHA_PARENTESE')
+            elif self.atual_token and self.atual_token[0] == 'FUNCAO':
+                self.funcao_declaracao()
+            elif self.atual_token and self.atual_token[0] == 'STRING':
+                self.match('STRING')
+            elif self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                self.token()
+            elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
+                self.prox_token()
+                self.token()
+            elif self.atual_token and self.atual_token[0] == 'BOOLEANO':
+                self.prox_token()
+            elif self.atual_token and self.atual_token[0] == 'CONTINUAR':
+                self.continue_condicional()
+            elif self.atual_token and self.atual_token[0] == 'INTERROMPER':
+                self.break_condicional()
+            elif self.atual_token and self.atual_token[0] == 'RETORNAR':
+                self.return_condicional()
+            else:
+                print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
+
+            while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
+                self.prox_token()
+                self.token()
+
 
     def declaracao(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
             self.tipo_declaracao()
         else:
-            if not self.match('ID'):
-                raise Exception(f"ID nao encontrado.")
-            self.atribuicao()
+            if self.match('ID'):
+                self.atribuicao()
 
     def tipo_declaracao(self):
         if self.match('ID'):
@@ -85,7 +110,7 @@ class Sintatico:
         if self.match('ID'):
             if self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
                 self.match('ATRIBUICAO')
-                self.expressao()
+                self.token()
             elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
                 self.lista_argumentos()
                 self.match('FECHA_PARENTESE')
@@ -95,7 +120,7 @@ class Sintatico:
     def if_condicional(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parentese nao encontrado.")
-        self.expressao()
+        self.token()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Fecha parentese nao encontrado.")
         self.token()
@@ -108,7 +133,7 @@ class Sintatico:
     def while_condicional(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parentese nao encontrado.")
-        self.expressao()
+        self.token()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Fecha parentese nao encontrado.")
 
@@ -123,40 +148,7 @@ class Sintatico:
 
     def return_condicional(self):
         self.match('RETORNAR')
-        self.expressao()
-
-    def expressao(self):
-        if self.atual_token and self.atual_token[0] == 'NUMERO':
-            self.prox_token()
-        elif self.atual_token and self.atual_token[0] == 'ID':
-            self.atribuicao_ou_chamadaFuncao()
-        elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
-            self.match('ABRE_PARENTESE')
-            self.expressao()
-            self.match('FECHA_PARENTESE')
-        elif self.atual_token and self.atual_token[0] == 'FUNCAO':
-            self.funcao_declaracao()
-        elif self.atual_token and self.atual_token[0] == 'STRING':
-            self.match('STRING')
-        elif self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
-            self.prox_token()
-            self.expressao()
-        elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
-            self.prox_token()
-            self.expressao()
-        elif self.atual_token and self.atual_token[0] == 'BOOLEANO':
-            self.prox_token()
-        elif self.atual_token and self.atual_token[0] == 'CONTINUAR':
-            self.continue_condicional()
-        elif self.atual_token and self.atual_token[0] == 'INTERROMPER':
-            self.break_condicional()
-        else:
-            print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
-
-        while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
-            self.prox_token()
-            self.expressao()
-
+        self.token()
 
     def atribuicao_ou_chamadaFuncao(self):
         identifier = self.atual_token[1]
@@ -167,7 +159,7 @@ class Sintatico:
             self.match('FECHA_PARENTESE')
         elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
-            self.expressao()
+            self.token()
 
     def lista_parametros(self):
         while self.match('ID'):
@@ -179,7 +171,7 @@ class Sintatico:
 
     def lista_argumentos(self):
         while self.atual_token and self.atual_token[0] != 'FECHA_PARENTESE':
-            self.expressao()
+            self.token()
             if self.atual_token and self.atual_token[0] == 'VIRGULA':
                 self.match('VIRGULA')
             else:
