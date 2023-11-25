@@ -72,7 +72,7 @@ class Sintatico:
             else:
                 self.atribuicao()
         else:
-            print("Erro: Esperado ID após o tipo de declaração")
+            print("Erro: Esperado ID apos o tipo de declaracao")
 
     def tipo_especifico(self):
         self.match('INTEIRO', 'BOOLEANO', 'VAZIO')
@@ -86,21 +86,21 @@ class Sintatico:
                 self.lista_argumentos()
                 self.match('FECHA_PARENTESE')
         else:
-            print("Erro: Esperado 'ID' para atribuição ou chamada de função")
+            print("Erro: Esperado 'ID' para atribuicao ou chamada de funcao")
 
     def block(self):
         if not self.match('ABRE_CHAVE'):
-            raise Exception(f"ABRE CHAVE não encontrado.")
+            raise Exception(f"ABRE CHAVE nao encontrado.")
         self.programa()
         if not self.match('FECHA_CHAVE'):
-            raise Exception(f"FECHA CHAVE não encontrado.")
+            raise Exception(f"FECHA CHAVE nao encontrado.")
 
     def if_condicional(self):
         if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Abre parêntese não encontrado.")
+            raise Exception(f"Abre parentese nao encontrado.")
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Fecha parêntese não encontrado.")
+            raise Exception(f"Fecha parentese nao encontrado.")
         self.condicionais()
         if self.match('SENAO'):
             self.condicionais()
@@ -111,10 +111,10 @@ class Sintatico:
 
     def while_condicional(self):
         if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Abre parêntese não encontrado.")
+            raise Exception(f"Abre parentese nao encontrado.")
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Fecha parêntese não encontrado.")
+            raise Exception(f"Fecha parentese nao encontrado.")
 
     def break_condicional(self):
         self.match('INTERROMPER')
@@ -192,10 +192,10 @@ class Sintatico:
         if not self.match('ID'):
             raise Exception(f"Erro: 'ID' esperado, mas encontrado {self.atual_token}")
         if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Erro: Abre parêntese não encontrado, mas encontrado {self.atual_token}.")
+            raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
         self.lista_parametros()
         if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Erro: Fecha parêntese não encontrado, mas encontrado {self.atual_token}.")
+            raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
 
 # Codigo fonte 
 codigo_fonte = """
