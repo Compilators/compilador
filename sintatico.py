@@ -171,12 +171,12 @@ class Sintatico:
             self.expressao()
 
     def lista_parametros(self):
-        while self.match('INTEIRO') or self.match('BOOLEANO'):
-            self.match('ID')
+        while self.match('ID'):
             if self.atual_token and self.atual_token[0] == 'VIRGULA':
                 self.match('VIRGULA')
             else:
                 break
+
 
     def lista_argumentos(self):
         while self.atual_token and self.atual_token[0] != 'FECHA_PARENTESE':
@@ -187,11 +187,15 @@ class Sintatico:
                 break
 
     def funcao_declaracao(self):
-        self.match('FUNCAO')
-        self.match('ID')
-        self.match('ABRE_PARENTESE')
+        if not self.match('FUNCAO'):
+            raise Exception(f"Erro: 'FUNCAO' esperado, mas encontrado {self.atual_token}")
+        if not self.match('ID'):
+            raise Exception(f"Erro: 'ID' esperado, mas encontrado {self.atual_token}")
+        if not self.match('ABRE_PARENTESE'):
+            raise Exception(f"Erro: Abre parêntese não encontrado.")
         self.lista_parametros()
-        self.match('FECHA_PARENTESE')
+        if not self.match('FECHA_PARENTESE'):
+            raise Exception(f"Erro: Fecha parêntese não encontrado, mas encontrado {self.atual_token}.")
 
 # Codigo fonte 
 codigo_fonte = """
