@@ -48,7 +48,6 @@ class Sintatico:
 
     def token(self):
         print(self.atual_token)
-        print(self.peek_token())
         match self.atual_token[0]:
             case 'ID':
                 self.atribuicao_ou_chamada_funcao()
@@ -63,18 +62,48 @@ class Sintatico:
             case _:
                 print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
                 sys.exit(1)
+    def parenteses_expressao(self):
+        if not self.match('ABRE_PARENTESE'):
+            raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
+        self.expressao()
+        if not self.match('FECHA_PARENTESE'):
+            raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
+    def expressao(self):
+        self.termo()
 
+        while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
+            operador = self.atual_token[1]
+            self.prox_token()
+            self.termo()
+
+    def termo(self):
+        self.fator()
+
+        while self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS']:
+            operador = self.atual_token[1]
+            self.prox_token()
+            self.fator()
+
+    def fator(self):
+        if self.atual_token and self.atual_token[0] == 'NUMERO':
+            self.prox_token()
+        elif self.atual_token and self.atual_token[0] == 'ID':
+            self.prox_token()
+            if self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
+                self.lista_argumentos()
+                self.match('FECHA_PARENTESE')
+        elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
+            self.parenteses_expressao()
+        elif self.atual_token and self.atual_token[0] == 'BOOLEANO':
+            self.prox_token()
+        else:
+            raise Exception(f"Erro: Fator invalido, encontrado {self.atual_token}.")
+           
     def enquanto_condicional(self):
         if not self.match('ENQUANTO'):
             raise Exception(f"Erro: 'ENQUANTO' esperado, mas encontrado {self.atual_token}")
 
-        if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Abre parentese nao encontrado.")
-
-        self.lista_argumentos()
-
-        if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Fecha parentese nao encontrado.")
+        self.parenteses_expressao()
 
         if not self.match('ABRE_CHAVE'):
             raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
@@ -147,13 +176,7 @@ class Sintatico:
         if not self.match('SE'):
             raise Exception(f"Erro: 'SE' esperado, mas encontrado {self.atual_token}")
 
-        if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Abre parentese nao encontrado.")
-
-        self.lista_argumentos()
-
-        if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Fecha parentese nao encontrado.")
+        self.parenteses_expressao()
 
         if not self.match('ABRE_CHAVE'):
             raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
