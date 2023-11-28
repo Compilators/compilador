@@ -1,3 +1,5 @@
+import os
+
 def analisador_lexico(codigo_fonte):
     tokens = []
     pos = 0
@@ -117,52 +119,70 @@ def analisador_lexico(codigo_fonte):
     return tokens
 
 # # Codigo fonte
-# codigo_fonte = """
-# variavel_inteira = 5
-# variavel_booleana = verdadeiro
+codigo_fonte = """
+variavel_inteira = 5
+variavel_booleana = verdadeiro
 
-# funcao imprimir_ola():
-#     imprimir("Ola, Mundo!")
+funcao imprimir_ola():
+    imprimir("Ola, Mundo!")
 
-# funcao somar(a, b):
-#     retornar a + b
+funcao somar(a, b):
+    retornar a + b
 
-# resultado = 0
+resultado = 0
 
-# imprimir_ola()
+imprimir_ola()
 
-# resultado = somar(3, 4)
+resultado = somar(3, 4)
 
-# se resultado > 10{
-#     imprimir("Resultado e maior que 10.")
-# }
-# senao:
-#     imprimir("Resultado e 10 ou menor.")
+se resultado > 10{
+    imprimir("Resultado e maior que 10.")
+}
+senao:
+    imprimir("Resultado e 10 ou menor.")
 
-# contador = 0
-# enquanto contador < resultado:
-#     imprimir(f"Contando: {contador}")
-#     contador += 1
+contador = 0
+enquanto contador < resultado:
+    imprimir(f"Contando: {contador}")
+    contador += 1
 
-#     se contador == 5:
-#         imprimir("Pulando 5")
-#         continuar
+    se contador == 5:
+        imprimir("Pulando 5")
+        continuar
     
-#     se contador == 7:
-#         imprimir("Parando no 7")
-#         interromper
+    se contador == 7:
+        imprimir("Parando no 7")
+        interromper
 
-# MINHA_CONSTANTE = "Esta e uma constante"
-# imprimir(MINHA_CONSTANTE)
+MINHA_CONSTANTE = "Esta e uma constante"
+imprimir(MINHA_CONSTANTE)
 
-# imprimir(f"Variável booleana: {variavel_booleana}")
+imprimir(f"Variavel booleana: {variavel_booleana}")
 
-# resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
+resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
 
-# se resultado_aritmetico == 10 ou (variavel_inteira != 5 e variavel_booleana e resultado <= 10):
-#     imprimir("Alguma condicao booleana foi atendida.")
-# """
+se resultado_aritmetico == 10 ou (variavel_inteira != 5 e variavel_booleana e resultado <= 10):
+    imprimir("Alguma condicao booleana foi atendida.")
+"""
 
 # tokens = analisador_lexico(codigo_fonte)
 # for token in tokens:
 #     print(token)
+
+
+# Cria um arquivo com o codigo fonte e outro com os tokens
+
+diretorio_arquivo = os.path.dirname(os.path.realpath(__file__))
+
+os.chdir(diretorio_arquivo)
+
+arquivo_tokens = "tokens.txt"
+
+tokens = analisador_lexico(codigo_fonte)
+
+with open(arquivo_tokens, 'w') as arquivo:
+    for token in tokens:
+        arquivo.write(f"{token[0]}: {token[1]}\n")
+
+with open("codigo_fonte.txt", 'w') as arquivo_saida:
+    arquivo_saida.write(codigo_fonte)
