@@ -38,10 +38,10 @@ enquanto (contador < resultado){
 MINHA_CONSTANTE = "Esta e uma constante"
 imprimir(MINHA_CONSTANTE)
 
-imprimir("Variável booleana: {variavel_booleana}")
+imprimir("Variavel booleana: {variavel_booleana}")
 
 resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
 
 se (resultado_aritmetico == 10){
     imprimir("Alguma condicao booleana foi atendida.")
-    }
+}

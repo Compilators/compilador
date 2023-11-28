@@ -114,7 +114,7 @@ ID: MINHA_CONSTANTE
 FECHA_PARENTESE: )
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
-STRING: Variável booleana: {variavel_booleana}
+STRING: Variavel booleana: {variavel_booleana}
 FECHA_PARENTESE: )
 ID: resultado_aritmetico
 ATRIBUICAO: =
