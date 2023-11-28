@@ -14,6 +14,14 @@ class Sintatico:
             self.atual_token = next(self.tokens)
         except StopIteration:
             self.atual_token = None
+            
+    def peek_token(self):
+        try:
+            temp_token = next(self.tokens)
+            self.tokens = iter([temp_token] + list(self.tokens))  # Reset iterator to its original state
+            return temp_token
+        except StopIteration:
+            return None
 
     def match(self, *tipo_token):
         while self.atual_token and self.atual_token[0] in ['DOIS_PONTOS', 'VIRGULA']:
@@ -40,6 +48,7 @@ class Sintatico:
 
     def token(self):
         print(self.atual_token)
+        print(self.peek_token())
         match self.atual_token[0]:
             case 'ID':
                 self.atribuicao_ou_chamada_funcao()
@@ -284,7 +293,7 @@ codigo_fonte = """
 variavel_inteira = 5
 variavel_booleana = verdadeiro
 
-funcao imprimir_ola(){
+funcao imprimir_ola (){
     imprimir("Ola, Mundo!")
 }
 

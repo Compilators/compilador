@@ -2,7 +2,7 @@
 variavel_inteira = 5
 variavel_booleana = verdadeiro
 
-funcao imprimir_ola(){
+funcao imprimir_ola (){
     imprimir("Ola, Mundo!")
 }
 
