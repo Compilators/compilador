@@ -2,7 +2,6 @@ def analisador_lexico(codigo_fonte):
     tokens = []
     pos = 0
     length = len(codigo_fonte)
-
     while pos < length:
         if codigo_fonte[pos] in ' \t\n':
             pos += 1
@@ -18,11 +17,12 @@ def analisador_lexico(codigo_fonte):
         elif codigo_fonte[pos] == '/':
             tokens.append(('DIVIDE', '/'))
             pos += 1
-        elif codigo_fonte[pos] == '=' and codigo_fonte[pos+1] == "=":
-            tokens.append(('IGUAL', '=='))
-            pos += 1
         elif codigo_fonte[pos] == '=':
-            tokens.append(('ATRIBUICAO', '='))
+            if pos + 1 < len(codigo_fonte) and codigo_fonte[pos + 1] == '=':
+                tokens.append(('IGUAL', '=='))
+                pos += 2
+            else:
+                tokens.append(('ATRIBUICAO', '='))
             pos += 1
         elif codigo_fonte[pos] == '!':
             if pos + 1 < length and codigo_fonte[pos + 1] == '=':
@@ -56,6 +56,12 @@ def analisador_lexico(codigo_fonte):
             pos += 1
         elif codigo_fonte[pos] == ':':
             tokens.append(('DOIS_PONTOS', ':'))
+            pos += 1
+        elif codigo_fonte[pos] == '{':
+            tokens.append(('ABRE_CHAVE', '{'))
+            pos += 1
+        elif codigo_fonte[pos] == '}':
+            tokens.append(('FECHA_CHAVE', '}'))
             pos += 1
         elif codigo_fonte[pos] == '"':
             inicio = pos
@@ -127,8 +133,9 @@ def analisador_lexico(codigo_fonte):
 
 # resultado = somar(3, 4)
 
-# se resultado > 10:
+# se resultado > 10{
 #     imprimir("Resultado e maior que 10.")
+# }
 # senao:
 #     imprimir("Resultado e 10 ou menor.")
 

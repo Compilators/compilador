@@ -38,57 +38,68 @@ class Sintatico:
                 break
 
     def token(self):
+        print(self.atual_token)
         match self.atual_token[0]:
-            case 'NUMERO':
-                self.prox_token()
             case 'ID':
                 self.atribuicao_ou_chamadaFuncao()
-            case 'ABRE_PARENTESE':
-                self.match('ABRE_PARENTESE')
-                self.token()
-                self.match('FECHA_PARENTESE')
             case 'FUNCAO':
                 self.funcao_declaracao()
-            case 'STRING':
-                self.match('STRING')
-            case 'MAIS' | 'MENOS' | 'VEZES' | 'DIVIDE':
-                self.prox_token()
-                self.token()
-            case 'ATRIBUICAO':
-                self.prox_token()
-                self.token()
-            case 'DOIS_PONTOS':
-                self.prox_token()
-                self.token()
-            case 'VIRGULA':
-                self.prox_token()
-                self.token()
-            case 'FECHA_PARENTESE':
-                self.prox_token()
-            case 'SENAO':
-                self.prox_token()
             case 'SE':
-                self.prox_token()
+                self.if_condicional()
             case 'ENQUANTO':
-                self.prox_token()
+                self.enquanto_condicional()
             case 'IMPRIMIR':
-                self.prox_token()
-            case 'BOOLEANO':
-                self.prox_token()
-            case 'CONTINUAR':
-                self.continue_condicional()
-            case 'INTERROMPER':
-                self.break_condicional()
-            case 'RETORNAR':
-                self.return_condicional()
+                self.imprimir()
             case _:
                 print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
+                sys.exit(1)
 
-        while self.atual_token and self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE']:
-            self.prox_token()
-            self.token()
+    def enquanto_condicional(self):
+        if not self.match('ENQUANTO'):
+            raise Exception(f"Erro: 'ENQUANTO' esperado, mas encontrado {self.atual_token}")
 
+        if not self.match('ABRE_PARENTESE'):
+            raise Exception(f"Abre parentese nao encontrado.")
 
+        # Adicionar algumas verificações: está passando erro, exemplo: ENQUANTO(5456)
+        self.lista_argumentos()
+
+        if not self.match('FECHA_PARENTESE'):
+            raise Exception(f"Fecha parentese nao encontrado.")
+
+        if not self.match('ABRE_CHAVE'):
+            raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
+
+        while self.atual_token[0] == 'IMPRIMIR':
+            self.imprimir()
+
+        while self.atual_token[0] == 'SE':
+            self.if_condicional()
+
+        while self.atual_token[0] == 'ENQUANTO':
+            self.enquanto_condicional()
+
+        while self.atual_token[0] == 'ID':
+            self.atribuicao_ou_chamadaFuncao()
+
+        if self.atual_token[0] == 'CONTINUAR':
+            self.continue_condicional()
+        elif self.atual_token[0] == 'INTERROMPER':
+            self.break_condicional()
+
+        if not self.match('FECHA_CHAVE'):
+            raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
+        self.token()
+    
+    def imprimir(self):
+        if self.match('IMPRIMIR'):
+            self.match('ABRE_PARENTESE')
+            while self.atual_token[0] == 'MAIOR' or self.atual_token[0] == 'MENOR' or self.atual_token[0] == 'MAIOR_IGUAL' or self.atual_token[0] == 'MENOR_IGUAL' or self.atual_token[0] == 'IGUAL' or self.atual_token[0] == 'DIFERENTE' or self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID' or self.atual_token[0] == 'STRING' or self.atual_token[0] == 'BOOLEANO' or self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE':
+                self.prox_token()
+            self.match('FECHA_PARENTESE')
+        else:
+            print("Erro: Esperado 'IMPRIMIR'")
+            
     def declaracao(self):
         if self.match('INTEIRO', 'BOOLEANO', 'VAZIO'):
             self.tipo_declaracao()
@@ -124,24 +135,59 @@ class Sintatico:
             print("Erro: Esperado 'ID' para atribuicao ou chamada de funcao")
 
     def if_condicional(self):
+        if not self.match('SE'):
+            raise Exception(f"Erro: 'SE' esperado, mas encontrado {self.atual_token}")
+
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Abre parentese nao encontrado.")
-        self.token()
+
+        # Adicionar algumas vericações: está passando erro, exemplo: SE(5456)
+        self.lista_argumentos()
+            
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Fecha parentese nao encontrado.")
-        self.token()
-        if self.match('SENAO'):
-            self.token()
 
-    def else_condicional(self):
-        self.token()
+        if not self.match('ABRE_CHAVE'):
+            raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
 
-    def while_condicional(self):
-        if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Abre parentese nao encontrado.")
-        self.token()
-        if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Fecha parentese nao encontrado.")
+        while self.atual_token[0] == 'IMPRIMIR':
+            self.imprimir()
+
+        while self.atual_token[0] == 'SE':
+            self.if_condicional()
+
+        while self.atual_token[0] == 'ENQUANTO':
+            self.enquanto_condicional()
+
+        while self.atual_token[0] == 'ID':
+            self.atribuicao_ou_chamadaFuncao()
+            
+        if self.atual_token[0] == 'CONTINUAR':
+            self.continue_condicional()
+        elif self.atual_token[0] == 'INTERROMPER':
+            self.break_condicional()
+        if not self.match('FECHA_CHAVE'):
+            raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
+        
+        elif self.atual_token != None and self.atual_token[0] == 'SENAO':
+            self.prox_token()
+            if not self.match('ABRE_CHAVE'):
+                raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
+
+            while self.atual_token[0] == 'IMPRIMIR':
+                self.imprimir()
+
+            while self.atual_token[0] == 'SE':
+                self.if_condicional()
+
+            while self.atual_token[0] == 'ENQUANTO':
+                self.enquanto_condicional()
+
+            while self.atual_token[0] == 'ID':
+                self.atribuicao_ou_chamadaFuncao()
+            if not self.match('FECHA_CHAVE'):
+                raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
+            
 
     def break_condicional(self):
         self.match('INTERROMPER')
@@ -153,20 +199,50 @@ class Sintatico:
         self.match('STRING')
 
     def return_condicional(self):
+        #Adicionar verificações, está passando Funcao ID(ID ID ID)
         self.match('RETORNAR')
-        self.token()
+        if self.atual_token[0] == 'STRING':
+            self.prox_token()
+        while self.atual_token[0] == 'ID':
+            self.prox_token()
+            if self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE':
+                self.prox_token()
+        if self.atual_token[0] == 'NUMERO':
+            self.prox_token()
+        else:
+            self.match("VIRGULA")
 
     def atribuicao_ou_chamadaFuncao(self):
         identifier = self.atual_token[1]
         self.match('ID')
-        if self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
+        if self.atual_token[0] == 'ABRE_PARENTESE':
             self.match('ABRE_PARENTESE')
             self.lista_argumentos()
             self.match('FECHA_PARENTESE')
-        elif self.atual_token and self.atual_token[0] == 'ATRIBUICAO':
+        elif self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
-            self.token()
-
+            if self.atual_token[0] == 'NUMERO':
+                self.prox_token()
+                while self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE' or self.atual_token[0] == 'NUMERO':
+                    self.prox_token()
+            elif self.atual_token[0] == 'ABRE_PARENTESE':
+                self.prox_token()
+                while self.atual_token[0] != 'FECHA_PARENTESE':
+                    self.token()
+                self.prox_token()
+                while self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE' or self.atual_token[0] == 'NUMERO':
+                    self.prox_token()
+            elif self.atual_token[0] == 'BOOLEANO':
+                self.prox_token()
+            elif self.atual_token[0] == 'STRING':
+                self.prox_token()
+        elif self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE':
+            self.prox_token()
+            if self.atual_token[0] == 'ATRIBUICAO':
+                self.prox_token()
+                while self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE' or self.atual_token[0] == 'NUMERO':
+                    self.prox_token()
+                
     def lista_parametros(self):
         while self.match('ID'):
             if self.atual_token and self.atual_token[0] == 'VIRGULA':
@@ -174,14 +250,11 @@ class Sintatico:
             else:
                 break
 
-
     def lista_argumentos(self):
-        while self.atual_token and self.atual_token[0] != 'FECHA_PARENTESE':
-            self.token()
+        while self.atual_token[0] == 'MAIOR' or self.atual_token[0] == 'MENOR' or self.atual_token[0] == 'MAIOR_IGUAL' or self.atual_token[0] == 'MENOR_IGUAL' or self.atual_token[0] == 'IGUAL' or self.atual_token[0] == 'DIFERENTE' or self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID' or self.atual_token[0] == 'STRING' or self.atual_token[0] == 'BOOLEANO' or self.atual_token[0] == 'MAIS' or self.atual_token[0] == 'MENOS' or self.atual_token[0] == 'VEZES' or self.atual_token[0] == 'DIVIDE':
+            self.prox_token()
             if self.atual_token and self.atual_token[0] == 'VIRGULA':
                 self.match('VIRGULA')
-            else:
-                break
 
     def funcao_declaracao(self):
         if not self.match('FUNCAO'):
@@ -193,51 +266,70 @@ class Sintatico:
         self.lista_parametros()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
+        if not self.match('ABRE_CHAVE'):
+            raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
+        while self.atual_token[0] == 'IMPRIMIR':
+            self.imprimir()
+        while self.atual_token[0] == 'SE':
+            self.if_condicional()
+        while self.atual_token[0] == 'ENQUANTO':
+            self.enquanto_condicional()
+        while self.atual_token[0] == 'ID':
+            self.atribuicao_ou_chamadaFuncao
+        if self.atual_token[0] == 'RETORNAR':
+            self.return_condicional()
+        if not self.match('FECHA_CHAVE'):
+            raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
+            
 
 # Codigo fonte 
 codigo_fonte = """
 variavel_inteira = 5
 variavel_booleana = verdadeiro
 
-funcao imprimir_ola():
+funcao imprimir_ola(){
     imprimir("Ola, Mundo!")
+}
 
-funcao somar(a, b):
+funcao somar(a, b){
     retornar a + b
-
+}
 resultado = 0
 
 imprimir_ola()
 
 resultado = somar(3, 4)
 
-se (resultado > 10):
+se (resultado > 10){
     imprimir("Resultado e maior que 10.")
-senao:
+}
+senao{
     imprimir("Resultado e 10 ou menor.")
-
+}
 contador = 0
-enquanto (contador < resultado):
-    imprimir(f"Contando: {contador}")
+enquanto (contador < resultado){
+    imprimir("Contando: {contador}")
     contador += 1
-
-    se (contador == 5):
+    }
+    se (contador == 5){
         imprimir("Pulando 5")
         continuar
-    
-    se (contador == 7):
+    }
+    se (contador == 7){
         imprimir("Parando no 7")
         interromper
+    }
 
 MINHA_CONSTANTE = "Esta e uma constante"
 imprimir(MINHA_CONSTANTE)
 
-imprimir(f"Variável booleana: {variavel_booleana}")
+imprimir("Variável booleana: {variavel_booleana}")
 
 resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
 
-se (resultado_aritmetico == 10):
+se (resultado_aritmetico == 10){
     imprimir("Alguma condicao booleana foi atendida.")
+    }
 """
 
 tokens = analisador_lexico(codigo_fonte)
