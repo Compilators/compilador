@@ -50,9 +50,9 @@ class Sintatico:
         print(self.atual_token)
         match self.atual_token[0]:
             case 'ID':
-                self.atribuicao_ou_chamada_funcao()
+                self.chamada_funcao()
             case 'FUNCAO':
-                self.funcao_declaracao()
+                self.declaracao_funcao()
             case 'SE':
                 self.if_condicional()
             case 'ENQUANTO':
@@ -69,6 +69,7 @@ class Sintatico:
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
+    
     def expressao(self):
         self.termo()
 
@@ -111,7 +112,7 @@ class Sintatico:
         while self.atual_token[0] == 'ENQUANTO':
             self.enquanto_condicional()
         while self.atual_token[0] == 'ID':
-            self.atribuicao_ou_chamada_funcao()
+            self.chamada_funcao()
         if self.atual_token[0] == 'CONTINUAR':
             self.continue_condicional()
         elif self.atual_token[0] == 'INTERROMPER':
@@ -145,17 +146,17 @@ class Sintatico:
     def tipo_declaracao(self):
         if self.match('ID'):
             if self.match('ABRE_PARENTESE'):
-                self.lista_parametros()
+                self.parametros()
                 self.match('FECHA_PARENTESE')
             elif self.match('DOIS_PONTOS'):
                 self.match('DOIS_PONTOS')
-                self.tipo_especifico()
+                self.tipo_retorno()
             else:
                 self.atribuicao()
         else:
             print("Erro: Esperado ID apos o tipo de declaracao")
 
-    def tipo_especifico(self):
+    def tipo_retorno(self):
         self.match('INTEIRO', 'BOOLEANO', 'VAZIO')
 
     def atribuicao(self):
@@ -202,7 +203,7 @@ class Sintatico:
         else:
             self.match("VIRGULA")
 
-    def atribuicao_ou_chamada_funcao(self):
+    def chamada_funcao(self):
         identifier = self.atual_token[1]
         self.match('ID')
         if self.atual_token[0] == 'ABRE_PARENTESE':
@@ -231,7 +232,7 @@ class Sintatico:
                 while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
                     self.prox_token()
 
-    def lista_parametros(self):
+    def parametros(self):
         while self.match('ID'):
             if self.atual_token and self.atual_token[0] == 'VIRGULA':
                 self.match('VIRGULA')
@@ -250,14 +251,14 @@ class Sintatico:
         else:
             raise Exception("Erro: Esperado '(' para iniciar a lista de argumentos.")
 
-    def funcao_declaracao(self):
+    def declaracao_funcao(self):
         if not self.match('FUNCAO'):
             raise Exception(f"Erro: 'FUNCAO' esperado, mas encontrado {self.atual_token}")
         if not self.match('ID'):
             raise Exception(f"Erro: 'ID' esperado, mas encontrado {self.atual_token}")
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
-        self.lista_parametros()
+        self.parametros()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
         if not self.match('ABRE_CHAVE'):
@@ -269,7 +270,7 @@ class Sintatico:
         while self.atual_token[0] == 'ENQUANTO':
             self.enquanto_condicional()
         while self.atual_token[0] == 'ID':
-            self.atribuicao_ou_chamada_funcao()
+            self.chamada_funcao()
         if self.atual_token[0] == 'RETORNAR':
             self.return_condicional()
         if not self.match('FECHA_CHAVE'):
