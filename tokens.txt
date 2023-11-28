@@ -8,11 +8,12 @@ FUNCAO: funcao
 ID: imprimir_ola
 ABRE_PARENTESE: (
 FECHA_PARENTESE: )
-DOIS_PONTOS: :
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Ola, Mundo!
 FECHA_PARENTESE: )
+FECHA_CHAVE: }
 FUNCAO: funcao
 ID: somar
 ABRE_PARENTESE: (
@@ -20,11 +21,12 @@ ID: a
 VIRGULA: ,
 ID: b
 FECHA_PARENTESE: )
-DOIS_PONTOS: :
+ABRE_CHAVE: {
 RETORNAR: retornar
 ID: a
 MAIS: +
 ID: b
+FECHA_CHAVE: }
 ID: resultado
 ATRIBUICAO: =
 NUMERO: 0
@@ -40,9 +42,11 @@ VIRGULA: ,
 NUMERO: 4
 FECHA_PARENTESE: )
 SE: se
+ABRE_PARENTESE: (
 ID: resultado
 MAIOR: >
 NUMERO: 10
+FECHA_PARENTESE: )
 ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
@@ -50,48 +54,57 @@ STRING: Resultado e maior que 10.
 FECHA_PARENTESE: )
 FECHA_CHAVE: }
 SENAO: senao
-DOIS_PONTOS: :
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Resultado e 10 ou menor.
 FECHA_PARENTESE: )
+FECHA_CHAVE: }
 ID: contador
 ATRIBUICAO: =
 NUMERO: 0
 ENQUANTO: enquanto
+ABRE_PARENTESE: (
 ID: contador
 MENOR: <
 ID: resultado
-DOIS_PONTOS: :
+FECHA_PARENTESE: )
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
-ID: f
 STRING: Contando: {contador}
 FECHA_PARENTESE: )
 ID: contador
 MAIS: +
 ATRIBUICAO: =
 NUMERO: 1
+FECHA_CHAVE: }
 SE: se
+ABRE_PARENTESE: (
 ID: contador
 IGUAL: ==
 NUMERO: 5
-DOIS_PONTOS: :
+FECHA_PARENTESE: )
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Pulando 5
 FECHA_PARENTESE: )
 CONTINUAR: continuar
+FECHA_CHAVE: }
 SE: se
+ABRE_PARENTESE: (
 ID: contador
 IGUAL: ==
 NUMERO: 7
-DOIS_PONTOS: :
+FECHA_PARENTESE: )
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Parando no 7
 FECHA_PARENTESE: )
 INTERROMPER: interromper
+FECHA_CHAVE: }
 ID: MINHA_CONSTANTE
 ATRIBUICAO: =
 STRING: Esta e uma constante
@@ -101,8 +114,7 @@ ID: MINHA_CONSTANTE
 FECHA_PARENTESE: )
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
-ID: f
-STRING: Variavel booleana: {variavel_booleana}
+STRING: Variável booleana: {variavel_booleana}
 FECHA_PARENTESE: )
 ID: resultado_aritmetico
 ATRIBUICAO: =
@@ -118,23 +130,14 @@ NUMERO: 2
 DIVIDE: /
 NUMERO: 2
 SE: se
+ABRE_PARENTESE: (
 ID: resultado_aritmetico
 IGUAL: ==
 NUMERO: 10
-ID: ou
-ABRE_PARENTESE: (
-ID: variavel_inteira
-DIFERENTE: !=
-NUMERO: 5
-ID: e
-ID: variavel_booleana
-ID: e
-ID: resultado
-MENOR_IGUAL: <=
-NUMERO: 10
 FECHA_PARENTESE: )
-DOIS_PONTOS: :
+ABRE_CHAVE: {
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Alguma condicao booleana foi atendida.
 FECHA_PARENTESE: )
+FECHA_CHAVE: }

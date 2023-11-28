@@ -1,3 +1,4 @@
+import os
 import sys 
 sys.path.append('../')
 from lexico import analisador_lexico
@@ -332,6 +333,22 @@ se (resultado_aritmetico == 10){
     }
 """
 
+# Cria um arquivo com o codigo fonte e outro com os tokens
+
+diretorio_arquivo = os.path.dirname(os.path.realpath(__file__))
+
+os.chdir(diretorio_arquivo)
+
+arquivo_tokens = "tokens.txt"
+
 tokens = analisador_lexico(codigo_fonte)
+
+with open(arquivo_tokens, 'w') as arquivo:
+    for token in tokens:
+        arquivo.write(f"{token[0]}: {token[1]}\n")
+
+with open("codigo_fonte.txt", 'w') as arquivo_saida:
+    arquivo_saida.write(codigo_fonte)
+
 Sintatico = Sintatico(iter(tokens))
 Sintatico.programa()
