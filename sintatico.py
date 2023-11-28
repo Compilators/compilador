@@ -62,12 +62,14 @@ class Sintatico:
             case _:
                 print(f"Erro: Expressao invalida. Encontrou {self.atual_token}")
                 sys.exit(1)
+
     def parenteses_expressao(self):
         if not self.match('ABRE_PARENTESE'):
             raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
         self.expressao()
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
+        
     def expressao(self):
         self.termo()
 
