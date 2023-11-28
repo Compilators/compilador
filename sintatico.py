@@ -70,6 +70,18 @@ class Sintatico:
         if not self.match('FECHA_PARENTESE'):
             raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
     
+    def op_aditivo(self):
+        while self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS']:
+            operador = self.atual_token[1]
+            self.prox_token()
+        return operador
+
+    def op_multiplicativo(self):
+        while self.atual_token and self.atual_token[0] in ['VEZES', 'DIVIDE']:
+            operador = self.atual_token[1]
+            self.prox_token()
+        return operador
+
     def expressao(self):
         self.termo()
 
@@ -82,8 +94,7 @@ class Sintatico:
         self.fator()
 
         while self.atual_token and self.atual_token[0] in ['MAIS', 'MENOS']:
-            operador = self.atual_token[1]
-            self.prox_token()
+            operador_aditivo = self.op_aditivo()
             self.fator()
 
     def fator(self):
@@ -100,7 +111,6 @@ class Sintatico:
             self.prox_token()
         else:
             raise Exception(f"Erro: Fator invalido, encontrado {self.atual_token}.")
-        
     
     def escopo(self):
         if not self.match('ABRE_CHAVE'):
