@@ -298,6 +298,7 @@ funcao imprimir_ola (){
 funcao somar(a, b){
     retornar a + b
 }
+
 resultado = 0
 
 imprimir_ola()
@@ -310,7 +311,9 @@ se (resultado > 10){
 senao{
     imprimir("Resultado e 10 ou menor.")
 }
+
 contador = 0
+
 enquanto (contador < resultado){
     imprimir("Contando: {contador}")
     contador += 1
