@@ -39,6 +39,7 @@ enquanto (contador < resultado){
     }
 
 MINHA_CONSTANTE = "Esta e uma constante"
+
 imprimir(MINHA_CONSTANTE)
 
 imprimir("Variavel booleana: {variavel_booleana}")

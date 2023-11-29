@@ -140,9 +140,10 @@ class Sintatico:
     def imprimir(self):
         if self.match('IMPRIMIR'):
             self.match('ABRE_PARENTESE')
-            while self.atual_token[0] in ['MAIOR', 'MENOR', 'MAIOR_IGUAL', 'MENOR_IGUAL', 'IGUAL', 'DIFERENTE', 'NUMERO', 'ID', 'STRING', 'BOOLEANO', 'MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+            while self.atual_token[0] in ['ID', 'STRING', 'NUMERO', 'BOOLEANO']:
                 self.prox_token()
-            self.match('FECHA_PARENTESE')
+            if not self.match('FECHA_PARENTESE'):
+                raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
         else:
             print("Erro: Esperado 'IMPRIMIR'")
 
@@ -176,7 +177,8 @@ class Sintatico:
                 self.token()
             elif self.atual_token and self.atual_token[0] == 'ABRE_PARENTESE':
                 self.lista_argumentos()
-                self.match('FECHA_PARENTESE')
+                if not self.match('FECHA_PARENTESE'):
+                    raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
         else:
             raise Exception("Erro: Esperado 'ID' para atribuicao ou chamada de funcao")
 
@@ -227,7 +229,7 @@ class Sintatico:
             elif self.atual_token[0] == 'ABRE_PARENTESE':
                 self.prox_token()
                 while self.atual_token[0] != 'FECHA_PARENTESE':
-                    self.token()
+                    self.prox_token()
                 self.prox_token()
                 while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
                     self.prox_token()
@@ -241,6 +243,11 @@ class Sintatico:
                 self.prox_token()
                 while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
                     self.prox_token()
+        elif self.atual_token[0] == 'FECHA_PARENTESE':
+            self.prox_token()
+        else:
+            raise Exception(f"Erro: Token inesperado {self.atual_token} após a chamada da função {identifier}.")
+
 
     def parametros(self):
         while self.match('ID'):
@@ -257,7 +264,8 @@ class Sintatico:
                 while self.atual_token and self.atual_token[0] == 'VIRGULA':
                     self.match('VIRGULA')
                     self.expressao()
-            self.match('FECHA_PARENTESE')
+            if not self.match('FECHA_PARENTESE'):
+                raise Exception("Erro: Esperado ')' para finalizar a lista de argumentos.")
         else:
             raise Exception("Erro: Esperado '(' para iniciar a lista de argumentos.")
 
@@ -328,6 +336,7 @@ enquanto (contador < resultado){
     }
 
 MINHA_CONSTANTE = "Esta e uma constante"
+
 imprimir(MINHA_CONSTANTE)
 
 imprimir("Variavel booleana: {variavel_booleana}")
