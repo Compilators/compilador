@@ -15,13 +15,13 @@ class Sintatico:
         except StopIteration:
             self.atual_token = None
             
-    def peek_token(self):
-        try:
-            temp_token = next(self.tokens)
-            self.tokens = iter([temp_token] + list(self.tokens))  # Reset iterator to its original state
-            return temp_token
-        except StopIteration:
-            return None
+    # def peek_token(self):
+    #     try:
+    #         temp_token = next(self.tokens)
+    #         self.tokens = iter([temp_token] + list(self.tokens))  # Reset iterator to its original state
+    #         return temp_token
+    #     except StopIteration:
+    #         return None
 
     def match(self, *tipo_token):
         while self.atual_token and self.atual_token[0] in ['DOIS_PONTOS', 'VIRGULA']:
@@ -76,11 +76,11 @@ class Sintatico:
             self.prox_token()
         return operador
 
-    def op_multiplicativo(self):
-        while self.atual_token and self.atual_token[0] in ['VEZES', 'DIVIDE']:
-            operador = self.atual_token[1]
-            self.prox_token()
-        return operador
+    # def op_multiplicativo(self):
+    #     while self.atual_token and self.atual_token[0] in ['VEZES', 'DIVIDE']:
+    #         operador = self.atual_token[1]
+    #         self.prox_token()
+    #     return operador
 
     def expressao(self):
         self.termo()
@@ -198,9 +198,6 @@ class Sintatico:
 
     def continue_condicional(self):
         self.match('CONTINUAR')
-
-    def echo_condicional(self):
-        self.match('STRING')
 
     def return_condicional(self):
         self.match('RETORNAR')
