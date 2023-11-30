@@ -27,7 +27,7 @@ contador = 0
 enquanto (contador < resultado){
     imprimir("Contando: {contador}")
     contador += 1
-    }
+
     se (contador == 5){
         imprimir("Pulando 5")
         continuar
@@ -36,6 +36,7 @@ enquanto (contador < resultado){
         imprimir("Parando no 7")
         interromper
     }
+}
 
 MINHA_CONSTANTE = "Esta e uma constante"
 

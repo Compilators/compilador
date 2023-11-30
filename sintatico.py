@@ -102,18 +102,19 @@ class Sintatico:
     def escopo(self):
         if not self.match('ABRE_CHAVE'):
             raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
-        while self.atual_token[0] == 'IMPRIMIR':
-            self.imprimir()
-        while self.atual_token[0] == 'SE':
-            self.if_condicional()
-        while self.atual_token[0] == 'ENQUANTO':
-            self.enquanto_condicional()
-        while self.atual_token[0] == 'ID':
-            self.chamada_funcao()
-        if self.atual_token[0] == 'CONTINUAR':
-            self.continue_condicional()
-        elif self.atual_token[0] == 'INTERROMPER':
-            self.break_condicional()
+        while self.atual_token[0] != 'FECHA_CHAVE':
+            while self.atual_token[0] == 'IMPRIMIR':
+                self.imprimir()
+            while self.atual_token[0] == 'SE':
+                self.if_condicional()
+            while self.atual_token[0] == 'ENQUANTO':
+                self.enquanto_condicional()
+            while self.atual_token[0] == 'ID':
+                self.chamada_funcao()
+            if self.atual_token[0] == 'CONTINUAR':
+                self.continue_condicional()
+            elif self.atual_token[0] == 'INTERROMPER':
+                self.break_condicional()
         if not self.match('FECHA_CHAVE'):
             raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
            
