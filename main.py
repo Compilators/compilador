@@ -1,6 +1,4 @@
-import sys
 import os
-sys.path.append('../')
 
 from lexico import analisador_lexico
 from sintatico import Sintatico

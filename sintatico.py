@@ -1,3 +1,4 @@
+import sys
 class Sintatico:
     def __init__(self, tokens):
         self.tokens = tokens
