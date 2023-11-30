@@ -1,8 +1,3 @@
-import os
-import sys
-sys.path.append('../')
-from lexico import analisador_lexico
-
 class Sintatico:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -15,14 +10,6 @@ class Sintatico:
         except StopIteration:
             self.atual_token = None
             
-    # def peek_token(self):
-    #     try:
-    #         temp_token = next(self.tokens)
-    #         self.tokens = iter([temp_token] + list(self.tokens))  # Reset iterator to its original state
-    #         return temp_token
-    #     except StopIteration:
-    #         return None
-
     def match(self, *tipo_token):
         while self.atual_token and self.atual_token[0] in ['DOIS_PONTOS', 'VIRGULA']:
             if self.atual_token[0] == 'VIRGULA':
@@ -43,7 +30,7 @@ class Sintatico:
         while self.atual_token:
             self.token()
             if self.atual_token is None:
-                print("Compilacao finalizada com sucesso.")
+                print("Execucao finalizada com sucesso.")
                 break
 
     def token(self):
@@ -243,7 +230,7 @@ class Sintatico:
         elif self.atual_token[0] == 'FECHA_PARENTESE':
             self.prox_token()
         else:
-            raise Exception(f"Erro: Token inesperado {self.atual_token} após a chamada da função {identifier}.")
+            raise Exception(f"Erro: Token inesperado {self.atual_token} apos a chamada da funcao {identifier}.")
 
 
     def parametros(self):
@@ -290,74 +277,4 @@ class Sintatico:
             self.return_condicional()
         if not self.match('FECHA_CHAVE'):
             raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
-
-# Codigo fonte
-codigo_fonte = """
-variavel_inteira = 5
-variavel_booleana = verdadeiro
-
-funcao imprimir_ola (){
-    imprimir("Ola, Mundo!")
-}
-
-funcao somar(a, b){
-    retornar a + b
-}
-
-resultado = 0
-
-imprimir_ola()
-
-resultado = somar(3, 4)
-
-se (resultado > 10){
-    imprimir("Resultado e maior que 10.")
-}
-senao{
-    imprimir("Resultado e 10 ou menor.")
-}
-
-contador = 0
-
-enquanto (contador < resultado){
-    imprimir("Contando: {contador}")
-    contador += 1
-    }
-    se (contador == 5){
-        imprimir("Pulando 5")
-        continuar
-    }
-    se (contador == 7){
-        imprimir("Parando no 7")
-        interromper
-    }
-
-MINHA_CONSTANTE = "Esta e uma constante"
-
-imprimir(MINHA_CONSTANTE)
-
-imprimir("Variavel booleana: {variavel_booleana}")
-
-resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
-
-se (resultado_aritmetico == 10){
-    imprimir("Alguma condicao booleana foi atendida.")
-}
-"""
-
-# Cria um arquivo com o codigo fonte e outro com os tokens
-diretorio_arquivo = os.path.dirname(os.path.realpath(__file__))
-os.chdir(diretorio_arquivo)
-
-arquivo_tokens = "tokens.txt"
-tokens = analisador_lexico(codigo_fonte)
-
-with open(arquivo_tokens, 'w') as arquivo:
-    for token in tokens:
-        arquivo.write(f"{token[0]}: {token[1]}\n")
-
-with open("codigo_fonte.txt", 'w') as arquivo_saida:
-    arquivo_saida.write(codigo_fonte)
-
-Sintatico = Sintatico(iter(tokens))
-Sintatico.programa()
+        

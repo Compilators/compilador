@@ -1,4 +1,3 @@
-
 variavel_inteira = 5
 variavel_booleana = verdadeiro
 

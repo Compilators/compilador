@@ -113,6 +113,5 @@ def analisador_lexico(codigo_fonte):
         else:
             print(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
             pos += 1
-
+        
     return tokens
-
