@@ -227,6 +227,8 @@ class Sintatico:
                                 raise Exception("Erro: Expressão inválida após a atribuição de número.")
                             else:
                                 self.prox_token()
+            
+                
 
         elif self.atual_token != None and self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
@@ -295,7 +297,7 @@ class Sintatico:
 
         elif self.atual_token[0] == 'STRING':
             self.prox_token()
-            while self.atual_token[0] == 'MAIS':
+            while self.atual_token != None and self.atual_token[0] == 'MAIS':
                 self.prox_token()
                 if self.atual_token[0] != 'ID':
                     raise Exception("Erro: Impossivel concatenar, pois não existe variavel apos o +")
