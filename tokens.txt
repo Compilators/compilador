@@ -128,7 +128,6 @@ NUMERO: 5
 VEZES: *
 NUMERO: 2
 DIVIDE: /
-NUMERO: 2
 SE: se
 ABRE_PARENTESE: (
 ID: resultado_aritmetico

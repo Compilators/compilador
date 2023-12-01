@@ -104,13 +104,13 @@ class Sintatico:
         if not self.match('ABRE_CHAVE'):
             raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
         while self.atual_token[0] != 'FECHA_CHAVE':
-            while self.atual_token[0] == 'IMPRIMIR':
+            if self.atual_token[0] == 'IMPRIMIR':
                 self.imprimir()
-            while self.atual_token[0] == 'SE':
+            elif self.atual_token[0] == 'SE':
                 self.if_condicional()
-            while self.atual_token[0] == 'ENQUANTO':
+            elif self.atual_token[0] == 'ENQUANTO':
                 self.enquanto_condicional()
-            while self.atual_token[0] == 'ID':
+            elif self.atual_token[0] == 'ID':
                 self.chamada_funcao()
             if self.atual_token[0] == 'CONTINUAR':
                 self.continue_condicional()
@@ -204,35 +204,116 @@ class Sintatico:
     def chamada_funcao(self):
         identifier = self.atual_token[1]
         self.match('ID')
-        if self.atual_token[0] == 'ABRE_PARENTESE':
+
+        if self.atual_token != None and self.atual_token[0] == 'ABRE_PARENTESE':
             self.lista_argumentos()
-        elif self.atual_token[0] == 'ATRIBUICAO':
+            if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                if self.atual_token[0] == 'ATRIBUICAO':
+                    self.prox_token()
+                    if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                        self.prox_token()
+                    elif self.atual_token[0] != ['ID', 'NUMERO']:
+                        raise Exception("Erro: atribuição incorreta")
+                if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                    self.prox_token()
+                    if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                        while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                            self.prox_token()
+                            if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != "ID":
+                                raise Exception("Erro: Expressão inválida após a atribuição de número.")
+                            else:
+                                self.prox_token()
+
+        elif self.atual_token != None and self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
-            if self.atual_token[0] == 'NUMERO':
-                self.prox_token()
-                while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
-                    self.prox_token()
-            elif self.atual_token[0] == 'ABRE_PARENTESE':
-                self.prox_token()
-                while self.atual_token[0] != 'FECHA_PARENTESE':
-                    self.prox_token()
-                self.prox_token()
-                while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
-                    self.prox_token()
-            elif self.atual_token[0] == 'BOOLEANO':
-                self.prox_token()
-            elif self.atual_token[0] == 'STRING':
-                self.prox_token()
-        elif self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+            self.tratar_atribuicao()
+            
+        elif self.atual_token != None and self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
             self.prox_token()
             if self.atual_token[0] == 'ATRIBUICAO':
                 self.prox_token()
-                while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE', 'NUMERO']:
+                if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
                     self.prox_token()
-        elif self.atual_token[0] == 'FECHA_PARENTESE':
+                elif self.atual_token[0] != ['ID', 'NUMERO']:
+                    raise Exception("Erro: atribuição incorreta")
+            if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                self.prox_token()
+                if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                    while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                        self.prox_token()
+                        if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != "ID":
+                            raise Exception("Erro: Expressão inválida após a atribuição de número.")
+                        else:
+                            self.prox_token()
+        else:
+            raise Exception(f"Erro: Token inesperado {self.atual_token} após a chamada da função {identifier}.")
+
+    def tratar_atribuicao(self):
+        if self.atual_token[0] == 'NUMERO':
+            self.prox_token()
+            while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                    raise Exception("Erro: Expressão inválida após a atribuição de número.")
+                else:
+                    self.prox_token()
+        elif self.atual_token[0] == 'ABRE_PARENTESE':
+            self.prox_token()
+            while self.atual_token[0] != 'FECHA_PARENTESE':
+                self.prox_token()
+                if self.atual_token[0] in ['NUMERO']:
+                    self.prox_token()
+                    if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                        self.prox_token()
+                        if self.atual_token[0] not in ['ID', 'NUMERO']:
+                            raise Exception("Erro: Expressão inválida após a atribuição.")
+                elif self.atual_token[0] == 'ID':
+                    self.prox_token()
+                    if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                        self.prox_token()
+                        if self.atual_token[0] not in ['ID', 'NUMERO']:
+                            raise Exception("Erro: Expressão inválida após a atribuição.")
+            self.prox_token()
+            if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                    self.prox_token()
+                    if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                        while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                            self.prox_token()
+                            if self.atual_token[0] != 'NUMERO' and self.atual_token[0] != "ID":
+                                raise Exception("Erro: Expressão inválida após a atribuição de número.")
+                            else:
+                                self.prox_token()
+
+        elif self.atual_token[0] == 'BOOLEANO':
+            self.prox_token()
+
+        elif self.atual_token[0] == 'STRING':
+            self.prox_token()
+            if self.atual_token[0] == 'MAIS':
+                self.prox_token()
+                if self.atual_token[0] != 'ID':
+                    raise Exception("Erro: Impossivel concatenar, pois não existe variavel apos o +")
+                self.prox_token()
+            
+        elif self.atual_token[0] == 'ID':
+            self.prox_token()
+            if self.atual_token[0] == 'ABRE_PARENTESE':
+                self.prox_token()
+                while self.atual_token != 'FECHA_PARENTESE':
+                    if self.atual_token[0] == 'ID' or self.atual_token[0] == 'NUMERO':
+                        self.prox_token()
+                        if self.atual_token[0] == 'FECHA_PARENTESE':
+                            break
+                        if self.atual_token[0] == 'VIRGULA':
+                            self.prox_token()
+                        else:
+                            raise Exception("Erro: Atribuição errada")
             self.prox_token()
         else:
-            raise Exception(f"Erro: Token inesperado {self.atual_token} apos a chamada da funcao {identifier}.")
+            raise Exception("Erro: Expressão inesperada após a atribuição.")
 
 
     def parametros(self):
