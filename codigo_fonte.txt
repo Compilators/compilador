@@ -1,44 +1,51 @@
-x = 42
-y = verdadeiro
+variavel_inteira = 5
+variavel_booleana = verdadeiro
 
-se (x > y){
-    imprimir("x e maior que y")
+funcao imprimir_ola (){
+    imprimir("Ola, Mundo!")
 }
-senao{
-    imprimir("y e maior que x ou sao iguais")
-}
-
-
-contador = 0
-enquanto (contador < 5){
-    imprimir("Contador: {contador}")
-    contador += 1
-}
-
-MINHA_CONSTANTE = "Valor Constante"
-
-
-resultado_expressao = (x + y) * 2 - 8 / 2
-
-
-se (x > 0){
-    imprimir("x e positivo")
-    se (y > 0){
-        imprimir("y tambem e positivo")
-    }
-}
-
 
 funcao somar(a, b){
     retornar a + b
 }
 
-resultado_soma = somar(10, 20)
+resultado = 0
 
+imprimir_ola()
 
-se (condicao_booleana){
-    imprimir("Condicao booleana atendida")
+resultado = somar(3, 4)
+
+se (resultado > 10){
+    imprimir("Resultado e maior que 10.")
+}
+senao{
+    imprimir("Resultado e 10 ou menor.")
 }
 
+contador = 0
 
-mensagem_concatenada = "O valor de x e: " + x
+enquanto (contador < resultado){
+    imprimir("Contando: {contador}")
+    contador += 1
+
+    se (contador == 5){
+        imprimir("Pulando 5")
+        continuar
+    }
+    se (contador == 7){
+        imprimir("Parando no 7")
+        interromper
+    }
+}
+
+MINHA_CONSTANTE = "Esta e uma constante"
+
+imprimir(MINHA_CONSTANTE)
+
+imprimir("Variavel booleana: {variavel_booleana}")
+
+resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
+
+se (resultado_aritmetico == 10){
+    imprimir("Alguma condicao booleana foi atendida.")
+}
