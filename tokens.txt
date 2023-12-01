@@ -25,7 +25,7 @@ ABRE_CHAVE: {
 RETORNAR: retornar
 ID: a
 MAIS: +
-FECHA_CHAVE: }
+ID: b
 ID: resultado
 ATRIBUICAO: =
 NUMERO: 0

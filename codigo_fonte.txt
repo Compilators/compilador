@@ -6,7 +6,7 @@ funcao imprimir_ola (){
 }
 
 funcao somar(a, b){
-    retornar a + 
+    retornar a + b
 }
 
 resultado = 0

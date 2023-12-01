@@ -338,29 +338,38 @@ class Sintatico:
                 raise Exception("Erro: Esperado ')' para finalizar a lista de argumentos.")
         else:
             raise Exception("Erro: Esperado '(' para iniciar a lista de argumentos.")
-
+    def abre_fecha_parenteses(self):
+            if not self.match('ABRE_PARENTESE'):
+                raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
+            self.parametros()
+            if not self.match('FECHA_PARENTESE'):
+                raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
+    def escopo_funcao(self):
+            if not self.match('ABRE_CHAVE'):
+                raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
+            while self.atual_token[0] != 'FECHA_CHAVE':
+                print(self.atual_token)
+                if self.atual_token[0] == 'IMPRIMIR':
+                    self.imprimir()
+                elif self.atual_token[0] == 'SE':
+                    self.if_condicional()
+                elif self.atual_token[0] == 'ENQUANTO':
+                    self.enquanto_condicional()
+                elif self.atual_token[0] == 'ID':
+                    self.chamada_funcao()
+                if self.atual_token[0] == 'RETORNAR':
+                    self.return_condicional()
+                if self.atual_token[0] not in ['IMPRIMIR', 'SE', 'ENQUANTO', 'ID', 'RETORNAR', 'FECHA_CHAVE']:
+                    raise Exception(f"Erro: Token inesperado {self.atual_token}")
+            if not self.match('FECHA_CHAVE'):
+                raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
     def declaracao_funcao(self):
         if not self.match('FUNCAO'):
             raise Exception(f"Erro: 'FUNCAO' esperado, mas encontrado {self.atual_token}")
         if not self.match('ID'):
             raise Exception(f"Erro: 'ID' esperado, mas encontrado {self.atual_token}")
-        if not self.match('ABRE_PARENTESE'):
-            raise Exception(f"Erro: Abre parentese nao encontrado, mas encontrado {self.atual_token}.")
-        self.parametros()
-        if not self.match('FECHA_PARENTESE'):
-            raise Exception(f"Erro: Fecha parentese nao encontrado, mas encontrado {self.atual_token}.")
-        if not self.match('ABRE_CHAVE'):
-            raise Exception(f"Erro: Abre chaves nao encontrado, mas encontrado {self.atual_token}.")
-        while self.atual_token[0] == 'IMPRIMIR':
-            self.imprimir()
-        while self.atual_token[0] == 'SE':
-            self.if_condicional()
-        while self.atual_token[0] == 'ENQUANTO':
-            self.enquanto_condicional()
-        while self.atual_token[0] == 'ID':
-            self.chamada_funcao()
-        if self.atual_token[0] == 'RETORNAR':
-            self.return_condicional()
-        if not self.match('FECHA_CHAVE'):
-            raise Exception(f"Erro: Fecha chaves nao encontrado, mas encontrado {self.atual_token}.")
+        self.abre_fecha_parenteses()
+        self.escopo_funcao()
+        
+        
         
