@@ -292,7 +292,7 @@ class Sintatico:
 
         elif self.atual_token[0] == 'STRING':
             self.prox_token()
-            if self.atual_token[0] == 'MAIS':
+            while self.atual_token[0] == 'MAIS':
                 self.prox_token()
                 if self.atual_token[0] != 'ID':
                     raise Exception("Erro: Impossivel concatenar, pois não existe variavel apos o +")
