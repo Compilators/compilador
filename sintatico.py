@@ -194,7 +194,10 @@ class Sintatico:
             self.prox_token()
         while self.atual_token[0] == 'ID':
             self.prox_token()
-            if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+            while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                if self.atual_token[0] != 'ID':
+                    raise ValueError("Erro: esperado 'ID' após operador")
                 self.prox_token()
         if self.atual_token[0] == 'NUMERO':
             self.prox_token()
