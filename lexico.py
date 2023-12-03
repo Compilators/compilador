@@ -10,62 +10,62 @@ def analisador_lexico(codigo_fonte):
             pos += 1
             linha += 1
         elif codigo_fonte[pos] == '+':
-            tokens.append(('MAIS', '+', linha))
+            tokens.append(('MAIS', '+', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '-':
-            tokens.append(('MENOS', '-', linha))
+            tokens.append(('MENOS', '-', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '*':
-            tokens.append(('VEZES', '*', linha))
+            tokens.append(('VEZES', '*', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '/':
-            tokens.append(('DIVIDE', '/', linha))
+            tokens.append(('DIVIDE', '/', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '=':
             if pos + 1 < len(codigo_fonte) and codigo_fonte[pos + 1] == '=':
-                tokens.append(('IGUAL', '==', linha))
+                tokens.append(('IGUAL', '==', f'linha: {linha}'))
                 pos += 2
             else:
-                tokens.append(('ATRIBUICAO', '=', linha))
+                tokens.append(('ATRIBUICAO', '=', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '!':
             if pos + 1 < length and codigo_fonte[pos + 1] == '=':
-                tokens.append(('DIFERENTE', '!=', linha))
+                tokens.append(('DIFERENTE', '!=', f'linha: {linha}'))
                 pos += 2
             else:
                 print(f"Erro: Caractere inesperado '{codigo_fonte[pos]}' na posicao {pos+1}")
                 pos += 1
         elif codigo_fonte[pos] == '>':
             if pos + 1 < length and codigo_fonte[pos + 1] == '=':
-                tokens.append(('MAIOR_IGUAL', '>=', linha))
+                tokens.append(('MAIOR_IGUAL', '>=', f'linha: {linha}'))
                 pos += 2
             else:
-                tokens.append(('MAIOR', '>', linha))
+                tokens.append(('MAIOR', '>', f'linha: {linha}'))
                 pos += 1
         elif codigo_fonte[pos] == '<':
             if pos + 1 < length and codigo_fonte[pos + 1] == '=':
-                tokens.append(('MENOR_IGUAL', '<=', linha))
+                tokens.append(('MENOR_IGUAL', '<=', f'linha: {linha}'))
                 pos += 2
             else:
-                tokens.append(('MENOR', '<', linha))
+                tokens.append(('MENOR', '<', f'linha: {linha}'))
                 pos += 1
         elif codigo_fonte[pos] == '(':
-            tokens.append(('ABRE_PARENTESE', '(', linha))
+            tokens.append(('ABRE_PARENTESE', '(', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == ')':
-            tokens.append(('FECHA_PARENTESE', ')', linha))
+            tokens.append(('FECHA_PARENTESE', ')', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == ',':
-            tokens.append(('VIRGULA', ',', linha))
+            tokens.append(('VIRGULA', ',', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == ':':
-            tokens.append(('DOIS_PONTOS', ':', linha))
+            tokens.append(('DOIS_PONTOS', ':', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '{':
-            tokens.append(('ABRE_CHAVE', '{', linha))
+            tokens.append(('ABRE_CHAVE', '{', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '}':
-            tokens.append(('FECHA_CHAVE', '}', linha))
+            tokens.append(('FECHA_CHAVE', '}', f'linha: {linha}'))
             pos += 1
         elif codigo_fonte[pos] == '"':
             inicio = pos
@@ -73,7 +73,7 @@ def analisador_lexico(codigo_fonte):
             while pos < length and codigo_fonte[pos] != '"':
                 pos += 1
             if pos < length and codigo_fonte[pos] == '"':
-                tokens.append(('STRING', codigo_fonte[inicio + 1:pos], linha))
+                tokens.append(('STRING', codigo_fonte[inicio + 1:pos], f'linha: {linha}'))
                 pos += 1
             else:
                 print(f"Erro: String nao terminada, começando na posicao {inicio+1}")
@@ -84,38 +84,37 @@ def analisador_lexico(codigo_fonte):
                 pos += 1
             palavra = codigo_fonte[inicio:pos]
             if palavra == 'verdadeiro' or palavra == 'falso':
-                tokens.append(('BOOLEANO', palavra, linha))
+                tokens.append(('BOOLEANO', palavra, f'linha: {linha}'))
             elif palavra == 'funcao':
-                tokens.append(('FUNCAO', palavra, linha))
+                tokens.append(('FUNCAO', palavra, f'linha: {linha}'))
             elif palavra == 'se':
-                tokens.append(('SE', palavra, linha))
+                tokens.append(('SE', palavra, f'linha: {linha}'))
             elif palavra == 'senao':
-                tokens.append(('SENAO', palavra, linha))
+                tokens.append(('SENAO', palavra, f'linha: {linha}'))
             elif palavra == 'enquanto':
-                tokens.append(('ENQUANTO', palavra, linha))
+                tokens.append(('ENQUANTO', palavra, f'linha: {linha}'))
             elif palavra == 'interromper':
-                tokens.append(('INTERROMPER', palavra, linha))
+                tokens.append(('INTERROMPER', palavra, f'linha: {linha}'))
             elif palavra == 'continuar':
-                tokens.append(('CONTINUAR', palavra, linha))
+                tokens.append(('CONTINUAR', palavra, f'linha: {linha}'))
             elif palavra == 'imprimir':
-                tokens.append(('IMPRIMIR', palavra, linha))
+                tokens.append(('IMPRIMIR', palavra, f'linha: {linha}'))
             elif palavra == 'inteiro':
-                tokens.append(('INTEIRO', palavra, linha))
+                tokens.append(('INTEIRO', palavra, f'linha: {linha}'))
             elif palavra == 'booleano':
-                tokens.append(('BOOLEANO', palavra, linha))
+                tokens.append(('BOOLEANO', palavra, f'linha: {linha}'))
             elif palavra == 'vazio':
-                tokens.append(('VAZIO', palavra, linha))
+                tokens.append(('VAZIO', palavra, f'linha: {linha}'))
             elif palavra == 'retornar':
-                tokens.append(('RETORNAR', palavra, linha))
+                tokens.append(('RETORNAR', palavra, f'linha: {linha}'))
             else:
-                tokens.append(('ID', palavra, linha))
+                tokens.append(('ID', palavra, f'linha: {linha}'))
         elif codigo_fonte[pos].isdigit():
             inicio = pos
             while pos < length and codigo_fonte[pos].isdigit():
                 pos += 1
-            tokens.append(('NUMERO', int(codigo_fonte[inicio:pos]), linha))
+            tokens.append(('NUMERO', int(codigo_fonte[inicio:pos]), f'linha: {linha}'))
         else:
             # print(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
             pos += 1
-        
     return tokens
