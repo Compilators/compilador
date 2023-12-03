@@ -4,10 +4,10 @@ from lexico import analisador_lexico
 from sintatico import Sintatico
 
 arquivo = open("codigo_fonte.txt","r")
-texto = arquivo.read()
+codigo = arquivo.read()
 arquivo.close()
 
-lexico = analisador_lexico(texto)
+lexico = analisador_lexico(codigo)
 
 # Cria um arquivo com os tokens
 diretorio_arquivo = os.path.dirname(os.path.realpath(__file__))
