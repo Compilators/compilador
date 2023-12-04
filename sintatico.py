@@ -38,7 +38,7 @@ class Sintatico:
         print(self.atual_token)
         match self.atual_token[0]:
             case 'ID':
-                self.variavel()
+                self.chamada_funcao()
             case 'FUNCAO':
                 self.declaracao_funcao()
             case 'SE':
@@ -105,7 +105,7 @@ class Sintatico:
             elif self.atual_token[0] == 'ENQUANTO':
                 self.enquanto_condicional()
             elif self.atual_token[0] == 'ID':
-                self.variavel()
+                self.chamada_funcao()
             if self.atual_token[0] == 'CONTINUAR':
                 self.continue_condicional()
             elif self.atual_token[0] == 'INTERROMPER':
@@ -198,11 +198,31 @@ class Sintatico:
         else:
             self.match("VIRGULA")
 
-    def variavel(self):
+    def chamada_funcao(self):
         identifier = self.atual_token[1]
         self.match('ID')
 
-        if self.atual_token != None and self.atual_token[0] == 'ATRIBUICAO':
+        if self.atual_token != None and self.atual_token[0] == 'ABRE_PARENTESE':
+            self.lista_argumentos()
+            if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                self.prox_token()
+                if self.atual_token[0] == 'ATRIBUICAO':
+                    self.prox_token()
+                    if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                        self.prox_token()
+                    elif self.atual_token[0] != ['ID', 'NUMERO']:
+                        raise Exception(f"Erro: Atribuicao incorreta {self.atual_token}")
+                if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+                    self.prox_token()
+                    if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                        while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                            self.prox_token()
+                            if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != "ID":
+                                raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
+                            else:
+                                self.prox_token()
+            
+        elif self.atual_token != None and self.atual_token[0] == 'ATRIBUICAO':
             self.match('ATRIBUICAO')
             self.tratar_atribuicao()
             
@@ -331,7 +351,7 @@ class Sintatico:
                 elif self.atual_token[0] == 'ENQUANTO':
                     self.enquanto_condicional()
                 elif self.atual_token[0] == 'ID':
-                    self.variavel()
+                    self.chamada_funcao()
                 if self.atual_token[0] == 'RETORNAR':
                     self.return_condicional()
                 if self.atual_token[0] not in ['IMPRIMIR', 'SE', 'ENQUANTO', 'ID', 'RETORNAR', 'FECHA_CHAVE']:

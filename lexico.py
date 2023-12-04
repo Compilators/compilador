@@ -4,7 +4,7 @@ def analisador_lexico(codigo_fonte):
     linha = 1
     length = len(codigo_fonte)
     while pos < length:
-        if codigo_fonte[pos] in ' \t':
+        while codigo_fonte[pos] in ' \t':
             pos += 1
         if codigo_fonte[pos] == '\n':
             pos += 1
@@ -115,6 +115,5 @@ def analisador_lexico(codigo_fonte):
                 pos += 1
             tokens.append(('NUMERO', int(codigo_fonte[inicio:pos]), f'linha: {linha}'))
         else:
-            # print(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
-            pos += 1
+            raise Exception(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
     return tokens
