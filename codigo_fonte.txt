@@ -11,8 +11,6 @@ funcao somar(a, b){
 
 resultado = 0
 
-imprimir_ola()
-
 resultado = somar(3, 4)
 
 se (resultado > 10){

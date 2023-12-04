@@ -30,9 +30,6 @@ FECHA_CHAVE: }
 ID: resultado
 ATRIBUICAO: =
 NUMERO: 0
-ID: imprimir_ola
-ABRE_PARENTESE: (
-FECHA_PARENTESE: )
 ID: resultado
 ATRIBUICAO: =
 ID: somar
