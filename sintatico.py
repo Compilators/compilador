@@ -1,8 +1,9 @@
 import sys
 class Sintatico:
-    def __init__(self, tokens):
+    def __init__(self, tokens, tabela_simbolos):
         self.tokens = tokens
         self.atual_token = None
+        self.tabela_simbolos = tabela_simbolos
         self.prox_token()
 
     def prox_token(self):
