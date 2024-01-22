@@ -1,4 +1,4 @@
-def analisador_lexico(codigo_fonte, tabela_simbolos):
+def analisador_lexico(codigo_fonte):
     tokens = []
     pos = 0
     linha = 1
@@ -83,7 +83,7 @@ def analisador_lexico(codigo_fonte, tabela_simbolos):
             while pos < length and (codigo_fonte[pos].isalnum() or codigo_fonte[pos] == '_'):
                 pos += 1
             palavra = codigo_fonte[inicio:pos]
-            tabela_simbolos.adicionar_simbolo(palavra, 'tipo_desconhecido', linha)
+            # tabela_simbolos.adicionar_simbolo(palavra, tabela_simbolos.verifica_tipo(palavra), linha)
             if palavra == 'verdadeiro' or palavra == 'falso':
                 tokens.append(('BOOLEANO', palavra, f'linha: {linha}'))
             elif palavra == 'funcao':
