@@ -1,8 +1,10 @@
 def analisador_lexico(codigo_fonte):
     tokens = []
+    tabela_simbolos = {}
     pos = 0
     linha = 1
     length = len(codigo_fonte)
+
     while pos < length:
         while codigo_fonte[pos] in ' \t':
             pos += 1
@@ -83,33 +85,39 @@ def analisador_lexico(codigo_fonte):
             while pos < length and (codigo_fonte[pos].isalnum() or codigo_fonte[pos] == '_'):
                 pos += 1
             palavra = codigo_fonte[inicio:pos]
-            # tabela_simbolos.adicionar_simbolo(palavra, tabela_simbolos.verifica_tipo(palavra), linha)
+
             if palavra == 'verdadeiro' or palavra == 'falso':
-                tokens.append(('BOOLEANO', palavra, f'linha: {linha}'))
+                tipo = 'BOOLEANO'
             elif palavra == 'funcao':
-                tokens.append(('FUNCAO', palavra, f'linha: {linha}'))
+                tipo = 'FUNCAO'
             elif palavra == 'se':
-                tokens.append(('SE', palavra, f'linha: {linha}'))
+                tipo = 'SE'
             elif palavra == 'senao':
-                tokens.append(('SENAO', palavra, f'linha: {linha}'))
+                tipo = 'SENAO'
             elif palavra == 'enquanto':
-                tokens.append(('ENQUANTO', palavra, f'linha: {linha}'))
+                tipo = 'ENQUANTO'
             elif palavra == 'interromper':
-                tokens.append(('INTERROMPER', palavra, f'linha: {linha}'))
+                tipo = 'INTERROMPER'
             elif palavra == 'continuar':
-                tokens.append(('CONTINUAR', palavra, f'linha: {linha}'))
+                tipo = 'CONTINUAR'
             elif palavra == 'imprimir':
-                tokens.append(('IMPRIMIR', palavra, f'linha: {linha}'))
+                tipo = 'IMPRIMIR'
             elif palavra == 'inteiro':
-                tokens.append(('INTEIRO', palavra, f'linha: {linha}'))
+                tipo = 'INTEIRO'
             elif palavra == 'booleano':
-                tokens.append(('BOOLEANO', palavra, f'linha: {linha}'))
+                tipo = 'BOOLEANO'
             elif palavra == 'vazio':
-                tokens.append(('VAZIO', palavra, f'linha: {linha}'))
+                tipo = 'VAZIO'
             elif palavra == 'retornar':
-                tokens.append(('RETORNAR', palavra, f'linha: {linha}'))
+                tipo = 'RETORNAR'
             else:
-                tokens.append(('ID', palavra, f'linha: {linha}'))
+                tipo = 'ID'
+
+            if palavra in tabela_simbolos:
+                tokens.append((tabela_simbolos[palavra]['TIPO'], palavra, f'linha: {linha}'))
+            else:
+                tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': None}
+                tokens.append((tipo, palavra, f'linha: {linha}'))
         elif codigo_fonte[pos].isdigit():
             inicio = pos
             while pos < length and codigo_fonte[pos].isdigit():
@@ -117,4 +125,9 @@ def analisador_lexico(codigo_fonte):
             tokens.append(('NUMERO', int(codigo_fonte[inicio:pos]), f'linha: {linha}'))
         else:
             raise Exception(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
+    
+    with open("tabela_simbolos.txt", 'w') as tabela_file:
+        for palavra, atributos in tabela_simbolos.items():
+            tabela_file.write(f"{palavra}: {atributos}\n")
+
     return tokens

@@ -13,6 +13,9 @@ class TabelaDeSimbolos:
             return None
 
     def imprimir_tabela(self):
-        print("Tabela de Simbolos:")
-        for nome, info in self.tabela.items():
-            print(f"Nome: {nome}, Tipo: {info['tipo']}, Linha: {info['linha']}")
+        print('\n')
+        print("Tabela de Simbolos:" + '\n')
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                print(linha, end='')
+        print()
