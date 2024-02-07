@@ -154,6 +154,7 @@ def analisador_lexico(codigo_fonte):
                                     posicaoFinal += 1
                                 valor = codigo_fonte[posicaoValor-1:posicaoFinal]
                                 posicaoValor = 0
+                                lexema = 'STRING'
                                 break
                             # elif codigo_fonte[posicaoValor] == '+' or codigo_fonte[posicaoValor] == '-' or codigo_fonte[posicaoValor] == '*' or codigo_fonte[posicaoValor] == '/':
                             #     posicaoValor += 1

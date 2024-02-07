@@ -6,5 +6,5 @@ a: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
 b: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
 resultado: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
 contador: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': None}
+MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': 'STRING'}
 resultado_aritmetico: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
