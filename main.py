@@ -12,6 +12,8 @@ tabela_simbolos = TabelaDeSimbolos()
 
 lexico = analisador_lexico(codigo)
 
+tabela_simbolos.tabelaSimbolos()
+
 # Cria um arquivo com os tokens
 diretorio_arquivo = os.path.dirname(os.path.realpath(__file__))
 os.chdir(diretorio_arquivo)
@@ -22,8 +24,7 @@ with open(arquivo_tokens, 'w') as arquivo:
     for token in lexico:
         arquivo.write(f"{token[0]}: {token[1]}\n")
 
-semantica = Semantica()
+semantica = Semantica(tabela_simbolos)
 
 sintatico = Sintatico(iter(lexico), tabela_simbolos, semantica)
 sintatico.programa()
-tabela_simbolos.imprimir_tabela()

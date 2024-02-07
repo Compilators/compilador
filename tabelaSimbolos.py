@@ -1,48 +1,51 @@
+import re 
 class TabelaDeSimbolos:
+
     def __init__(self):
         self.tabela = {}
+
+    @staticmethod
+    def tabelaSimbolos():
+        tabelaSimbolos = {}
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                tabelaSimbolos[linha.split()[0]] = {'TIPO': linha.split()[1], 'VALOR': linha.split()[2], 'LEXEMA': linha.split()[3]}
+        return tabelaSimbolos
 
     def adicionar_simbolo(self, nome, tipo, linha):
         if nome not in self.tabela:
             self.tabela[nome] = {'tipo': tipo, 'linha': linha}
 
-    def obter_tipo(self, nome):
-        if nome in self.tabela:
-            return self.tabela[nome]['tipo']
-        else:
-            return None
+    @staticmethod
+    def obter_tipo(nome):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                if re.search(f"^{nome}:", linha):
+                    return linha.split(':')[2].strip()
+        return None
+        
+    @staticmethod
+    def obter_lexema(nome):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                if re.search(f"^{nome}:", linha):
+                    partes = linha.split(':')
+                    if len(partes) >= 5:
+                        return partes[4].strip().strip("{'").strip("'}")
+        return None
 
-    def verificar_parametros(self, nome_funcao, linha):
-        pass 
-
-    def verificar_retorno(self, nome_funcao, linha):
-        pass
-
-    def verificar_atribuicao(self, nome_variavel, linha):
-        pass 
-
-    def verificar_condicional(self, condicao, linha):
-        pass
-
-    def verificar_interromper(self, linha):
-        pass
-
-    def verificar_continuar(self, linha):
-        pass
-
-    def verificar_imprimir(self, valor, linha):
-        pass 
-
-    def verificar_booleano(self, nome_variavel, linha):
-        pass 
-
-    def verificar_inteiro(self, nome_variavel, linha):
-        pass
+    @staticmethod
+    def obter_valor(nome):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                if re.search(f"^{nome}:", linha):
+                    return linha.split(':')[3].strip()
+        return None
 
     def imprimir_tabela(self):
         print('\n')
         print("Tabela de Simbolos:" + '\n')
-        with open("tabela_simbolos.txt", 'r') as arquivo:
-            for linha in arquivo:
-                print(linha, end='')
+        tabelaSimbolos = TabelaDeSimbolos.tabelaSimbolos()
+        for linha in tabelaSimbolos.values():
+            print(linha)
         print()
