@@ -29,7 +29,7 @@ def analisador_lexico(codigo_fonte):
                 pos += 2
             else:
                 tokens.append(('ATRIBUICAO', '=', f'linha: {linha}'))
-            pos += 1
+                pos += 1
         elif codigo_fonte[pos] == '!':
             if pos + 1 < length and codigo_fonte[pos + 1] == '=':
                 tokens.append(('DIFERENTE', '!=', f'linha: {linha}'))
@@ -113,10 +113,50 @@ def analisador_lexico(codigo_fonte):
             else:
                 tipo = 'ID'
 
+            palavra = codigo_fonte[inicio:pos]
+
             if palavra in tabela_simbolos:
                 tokens.append((tabela_simbolos[palavra]['TIPO'], palavra, f'linha: {linha}'))
             else:
-                tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': None}
+                valor = None
+                posicaoValor = pos
+                posicaoFinal = pos
+                while posicaoValor < length and codigo_fonte[pos] in ' \t':
+                    posicaoValor += 1
+                    if codigo_fonte[posicaoValor] == '=':
+                        posicaoValor += 1
+                        while posicaoValor < length and codigo_fonte[posicaoValor] in ' \t':
+                            posicaoValor += 1
+                            if codigo_fonte[posicaoValor].isdigit():
+                                valor = int(codigo_fonte[posicaoValor])
+                                posicaoValor = 0
+                                break
+                            elif codigo_fonte[posicaoValor].isalpha():
+                                posicaoFinal = posicaoValor
+                                while codigo_fonte[posicaoFinal] != '\n':
+                                    posicaoFinal += 1
+                                valor = codigo_fonte[posicaoValor:posicaoFinal]
+                                posicaoValor = 0
+                                break
+                            elif codigo_fonte[posicaoValor] == '"':
+                                posicaoFinal = posicaoValor
+                                posicaoValor += 1
+                                while codigo_fonte[posicaoFinal] != '\n':
+                                    posicaoFinal += 1
+                                valor = codigo_fonte[posicaoValor-1:posicaoFinal]
+                                posicaoValor = 0
+                                break
+                            # elif codigo_fonte[posicaoValor] == '+' or codigo_fonte[posicaoValor] == '-' or codigo_fonte[posicaoValor] == '*' or codigo_fonte[posicaoValor] == '/':
+                            #     posicaoValor += 1
+                            #     while posicaoValor < length and codigo_fonte[posicaoValor] != '\n':
+                            #         posicaoValor += 1
+                            #     valor = codigo_fonte[posicaoValor:posicaoFinal]
+                            #     posicaoValor = 0
+                            #     break
+                        break
+
+                if tipo == 'ID':
+                    tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': valor}
                 tokens.append((tipo, palavra, f'linha: {linha}'))
         elif codigo_fonte[pos].isdigit():
             inicio = pos

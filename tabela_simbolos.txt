@@ -1,19 +1,10 @@
-variavel_inteira: {'TIPO': 'ID', 'VALOR': None}
-variavel_booleana: {'TIPO': 'ID', 'VALOR': None}
-verdadeiro: {'TIPO': 'BOOLEANO', 'VALOR': None}
-funcao: {'TIPO': 'FUNCAO', 'VALOR': None}
+variavel_inteira: {'TIPO': 'ID', 'VALOR': 5}
+variavel_booleana: {'TIPO': 'ID', 'VALOR': 'verdadeiro'}
 imprimir_ola: {'TIPO': 'ID', 'VALOR': None}
-imprimir: {'TIPO': 'IMPRIMIR', 'VALOR': None}
 somar: {'TIPO': 'ID', 'VALOR': None}
 a: {'TIPO': 'ID', 'VALOR': None}
 b: {'TIPO': 'ID', 'VALOR': None}
-retornar: {'TIPO': 'RETORNAR', 'VALOR': None}
-resultado: {'TIPO': 'ID', 'VALOR': None}
-se: {'TIPO': 'SE', 'VALOR': None}
-senao: {'TIPO': 'SENAO', 'VALOR': None}
-contador: {'TIPO': 'ID', 'VALOR': None}
-enquanto: {'TIPO': 'ENQUANTO', 'VALOR': None}
-continuar: {'TIPO': 'CONTINUAR', 'VALOR': None}
-interromper: {'TIPO': 'INTERROMPER', 'VALOR': None}
-MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': None}
+resultado: {'TIPO': 'ID', 'VALOR': 0}
+contador: {'TIPO': 'ID', 'VALOR': 0}
+MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"'}
 resultado_aritmetico: {'TIPO': 'ID', 'VALOR': None}
