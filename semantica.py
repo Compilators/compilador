@@ -11,6 +11,7 @@ class Semantica:
 
     def verificar_atribuicao(self, nome_variavel, linha):
         posicao = linha
+        
         while(self.tabela_simbolos[posicao] != '\n'):
             posicao = posicao + 1
             if(self.tabela_simbolos[posicao] == nome_variavel):
@@ -19,33 +20,37 @@ class Semantica:
                     if(self.tabela_simbolos[posicao] == '='):
                         posicao = posicao + 1
                         if(self.tabela_simbolos[posicao].isdigit()):
-                            if self.tabela_simbolos[posicao] in self.tabela_simbolos:
-                                if self.tabela_simbolos[posicao]['LEXEMA'] == 'NUMERO':
-                                    return True
-                                else:
-                                    return False
+                            if nome_variavel in self.tabela_simbolos:
+                                for i in self.tabela_simbolos:
+                                    if i == nome_variavel:
+                                        if self.tabela_simbolos[i]['LEXEMA'] == 'NUMERO':
+                                            return True
+                                        else:
+                                            return False
                             else :
                                 return True
                         elif (self.tabela_simbolos[posicao].isalpha()):
-                            if self.tabela_simbolos[posicao] in self.tabela_simbolos:
-                                if self.tabela_simbolos[posicao]['LEXEMA'] == 'STRING':
-                                    return True
-                                else:
-                                    return False
+                            if nome_variavel in self.tabela_simbolos:
+                                for i in self.tabela_simbolos:
+                                    if i == nome_variavel:
+                                        if self.tabela_simbolos[i]['LEXEMA'] == 'STRING':
+                                            return True
+                                        else:
+                                            return False
                             else :
                                 return True
                         elif (self.tabela_simbolos[posicao] == 'verdadeiro' or self.tabela_simbolos[posicao] == 'falso'):
-                            if self.tabela_simbolos[posicao] in self.tabela_simbolos:
-                                if self.tabela_simbolos[posicao]['LEXEMA'] == 'BOOLEANO':
-                                    return True
-                                else:
-                                    return False
+                            if nome_variavel in self.tabela_simbolos:
+                                for i in self.tabela_simbolos:
+                                    if i == nome_variavel:
+                                        if self.tabela_simbolos[i]['LEXEMA'] == 'BOOLEANO':
+                                            return True
+                                        else:
+                                            return False
                             else :
                                 return True
                         else:
                             return False
-                    else:
-                        return False
             posicao = posicao + 1
         pass 
 
