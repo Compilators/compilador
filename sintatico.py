@@ -34,6 +34,32 @@ class Sintatico:
             if self.atual_token is None:
                 print("Execucao finalizada com sucesso.")
                 break
+        # self.analisar_semantica()
+
+    def analisar_semantica(self):
+        for token in self.tabela_simbolos.tabela:
+            if token[1] == 'FUNCAO':
+                self.tabela_simbolos.verificar_parametros(token[0], token[2])
+                self.tabela_simbolos.verificar_retorno(token[0], token[2])
+            elif token[1] == 'ID':
+                self.tabela_simbolos.verificar_atribuicao(token[0], token[2])
+            elif token[1] == 'RETORNAR':
+                self.tabela_simbolos.verificar_retorno(token[0], token[2])
+            elif token[1] == 'SE':
+                self.tabela_simbolos.verificar_condicional(token[0], token[2])
+            elif token[1] == 'ENQUANTO':
+                self.tabela_simbolos.verificar_condicional(token[0], token[2])
+            elif token[1] == 'INTERROMPER':
+                self.tabela_simbolos.verificar_interromper(token[0], token[2])
+            elif token[1] == 'CONTINUAR':
+                self.tabela_simbolos.verificar_continuar(token[0], token[2])
+            elif token[1] == 'IMPRIMIR':
+                self.tabela_simbolos.verificar_imprimir(token[0], token[2])
+            elif token[1] == 'BOOLEANO':
+                self.tabela_simbolos.verificar_booleano(token[0], token[2])
+            elif token[1] == 'INTEIRO':
+                self.tabela_simbolos.verificar_inteiro(token[0], token[2])
+        pass
 
     def token(self):
         print(self.atual_token)
