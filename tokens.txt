@@ -1,6 +1,6 @@
 ID: variavel_inteira
 ATRIBUICAO: =
-NUMERO: 5
+NUMERO: 55
 ID: variavel_booleana
 ATRIBUICAO: =
 BOOLEANO: verdadeiro

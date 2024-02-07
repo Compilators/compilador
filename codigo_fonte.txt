@@ -1,4 +1,4 @@
-variavel_inteira = 5
+variavel_inteira = 55
 variavel_booleana = verdadeiro
 
 funcao imprimir_ola(){
