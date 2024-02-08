@@ -63,6 +63,9 @@ FECHA_CHAVE: }
 ID: contador
 ATRIBUICAO: =
 NUMERO: 0
+ID: variavel_inteira
+ATRIBUICAO: =
+STRING: teste
 ENQUANTO: enquanto
 ABRE_PARENTESE: (
 ID: contador

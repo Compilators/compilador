@@ -1,7 +1,7 @@
+from tabelaSimbolos import TabelaDeSimbolos 
 class Semantica:
-    def __init__(self, tabela_simbolos):
+    def __init__(self):
         self.tabela = {}
-        self.tabela_simbolos = tabela_simbolos
 
     def verificar_parametros(self, nome_funcao, linha):
         pass 
@@ -9,49 +9,27 @@ class Semantica:
     def verificar_retorno(self, nome_funcao, linha):
         pass
 
-    def verificar_atribuicao(self, nome_variavel, linha):
-        posicao = linha
-        
-        while(self.tabela_simbolos[posicao] != '\n'):
-            posicao = posicao + 1
-            if(self.tabela_simbolos[posicao] == nome_variavel):
-                while(self.tabela_simbolos[posicao] != '\n'):
-                    posicao = posicao + 1
-                    if(self.tabela_simbolos[posicao] == '='):
-                        posicao = posicao + 1
-                        if(self.tabela_simbolos[posicao].isdigit()):
-                            if nome_variavel in self.tabela_simbolos:
-                                for i in self.tabela_simbolos:
-                                    if i == nome_variavel:
-                                        if self.tabela_simbolos[i]['LEXEMA'] == 'NUMERO':
-                                            return True
-                                        else:
-                                            return False
-                            else :
-                                return True
-                        elif (self.tabela_simbolos[posicao].isalpha()):
-                            if nome_variavel in self.tabela_simbolos:
-                                for i in self.tabela_simbolos:
-                                    if i == nome_variavel:
-                                        if self.tabela_simbolos[i]['LEXEMA'] == 'STRING':
-                                            return True
-                                        else:
-                                            return False
-                            else :
-                                return True
-                        elif (self.tabela_simbolos[posicao] == 'verdadeiro' or self.tabela_simbolos[posicao] == 'falso'):
-                            if nome_variavel in self.tabela_simbolos:
-                                for i in self.tabela_simbolos:
-                                    if i == nome_variavel:
-                                        if self.tabela_simbolos[i]['LEXEMA'] == 'BOOLEANO':
-                                            return True
-                                        else:
-                                            return False
-                            else :
-                                return True
-                        else:
-                            return False
-            posicao = posicao + 1
+    def verificar_atribuicao(self, nome_variavel):
+        tabelaSimbolos = TabelaDeSimbolos()
+        print('entrou')
+        if tabelaSimbolos.obter_lexema(nome_variavel) == None:
+            return True
+        else:
+                if nome_variavel.isdigit():
+                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'NUMERO':
+                        return True
+                    else:
+                        return False
+                elif nome_variavel.isalpha():
+                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'STRING':
+                        return True
+                    else:
+                        return False
+                elif nome_variavel == 'verdadeiro' or nome_variavel == 'falso':
+                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'BOOLEANO':
+                        return True
+                    else:
+                        return False
         pass 
 
     def verificar_condicional(self, condicao, linha):

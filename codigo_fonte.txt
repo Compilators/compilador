@@ -24,6 +24,8 @@ senao{
 
 contador = 0
 
+variavel_inteira = "teste"
+
 enquanto (contador < resultado){
     imprimir("Contando: {contador}")
     contador += 1

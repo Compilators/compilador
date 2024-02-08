@@ -45,7 +45,6 @@ class TabelaDeSimbolos:
     def imprimir_tabela(self):
         print('\n')
         print("Tabela de Simbolos:" + '\n')
-        tabelaSimbolos = TabelaDeSimbolos.tabelaSimbolos()
-        for linha in tabelaSimbolos.values():
-            print(linha)
-        print()
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                print(linha.strip())

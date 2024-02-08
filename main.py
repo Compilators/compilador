@@ -2,7 +2,6 @@ import os
 from lexico import analisador_lexico
 from sintatico import Sintatico
 from tabelaSimbolos import TabelaDeSimbolos 
-from semantica import Semantica
 
 arquivo = open("codigo_fonte.txt", "r")
 codigo = arquivo.read()
@@ -24,7 +23,6 @@ with open(arquivo_tokens, 'w') as arquivo:
     for token in lexico:
         arquivo.write(f"{token[0]}: {token[1]}\n")
 
-semantica = Semantica(tabela_simbolos)
-
-sintatico = Sintatico(iter(lexico), tabela_simbolos, semantica)
+sintatico = Sintatico(iter(lexico), tabela_simbolos)
 sintatico.programa()
+tabela_simbolos.imprimir_tabela()
