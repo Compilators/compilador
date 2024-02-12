@@ -15,6 +15,20 @@ class TabelaDeSimbolos:
     def adicionar_simbolo(self, nome, tipo, linha):
         if nome not in self.tabela:
             self.tabela[nome] = {'tipo': tipo, 'linha': linha}
+    
+    @staticmethod
+    def obter_nome_por_valor(valor):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            linhas = arquivo.readlines()
+
+        for linha in reversed(linhas):
+            partes = linha.split(':')
+            if len(partes) >= 5:
+                if partes[4].strip().strip("{'").strip("'}") == valor:
+                    indice = linhas.index(linha)
+                    nome_variavel = linhas[indice - 1].split(':')[0].strip()
+                    return nome_variavel
+        return None
 
     @staticmethod
     def obter_tipo(nome):

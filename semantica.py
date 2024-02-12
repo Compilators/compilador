@@ -9,28 +9,26 @@ class Semantica:
     def verificar_retorno(self, nome_funcao, linha):
         pass
 
-    def verificar_atribuicao(self, nome_variavel):
-        tabelaSimbolos = TabelaDeSimbolos()
-        print('entrou')
-        if tabelaSimbolos.obter_lexema(nome_variavel) == None:
-            return True
+    def verificar_atribuicao(self, nome_variavel, tipo_valor):
+        tabelaSimbolos = TabelaDeSimbolos() 
+
+        valor_variavel = nome_variavel[1]
+
+        lexema_variavel = tabelaSimbolos.obter_nome_por_valor(valor_variavel)
+
+        print(f'Nome da variavel: {lexema_variavel}')
+
+        if lexema_variavel is None:
+            return True 
         else:
-                if nome_variavel.isdigit():
-                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'NUMERO':
-                        return True
-                    else:
-                        return False
-                elif nome_variavel.isalpha():
-                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'STRING':
-                        return True
-                    else:
-                        return False
-                elif nome_variavel == 'verdadeiro' or nome_variavel == 'falso':
-                    if tabelaSimbolos.obter_lexema(nome_variavel) == 'BOOLEANO':
-                        return True
-                    else:
-                        return False
-        pass 
+            if tipo_valor == 'NUMERO' and lexema_variavel == 'NUMERO':
+                return True
+            elif tipo_valor == 'STRING' and lexema_variavel == 'STRING':
+                return True
+            elif tipo_valor == 'BOOLEANO' and lexema_variavel == 'BOOLEANO':
+                return True
+            else:
+                return False
 
     def verificar_condicional(self, condicao, linha):
         pass

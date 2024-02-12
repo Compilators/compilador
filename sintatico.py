@@ -258,7 +258,7 @@ class Sintatico:
 
     def tratar_atribuicao(self):
         if self.atual_token[0] == 'NUMERO':
-            if self.semantica.verificar_atribuicao(self.atual_token) == False:
+            if self.semantica.verificar_atribuicao(self.atual_token, 'NUMERO') == False:
                 raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
             else:
                 self.prox_token()
@@ -280,10 +280,10 @@ class Sintatico:
                         if self.atual_token[0] not in ['ID', 'NUMERO']:
                             raise Exception(f"Erro: Expressao invalida apos a atribuicao. {self.atual_token}")
                 elif self.atual_token[0] == 'ID':
-                    if self.semantica.verificar_atribuicao(self.atual_token) == False:
-                        raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
-                    else:
-                        self.prox_token()
+                    # if self.semantica.verificar_atribuicao(self.atual_token) == False:
+                    #     raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
+                    # else:
+                    self.prox_token()
                     if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
                         self.prox_token()
                         if self.atual_token[0] not in ['ID', 'NUMERO']:
@@ -292,7 +292,7 @@ class Sintatico:
             if self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
                 self.prox_token()
                 if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
-                    if self.semantica.verificar_atribuicao(self.atual_token) == False:
+                    if self.semantica.verificar_atribuicao(self.atual_token, 'NUMERO') == False:
                         raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
                     else:
                         self.prox_token()
@@ -305,13 +305,13 @@ class Sintatico:
                                 self.prox_token()
 
         elif self.atual_token[0] == 'BOOLEANO':
-             if self.semantica.verificar_atribuicao(self.atual_token) == False:
+             if self.semantica.verificar_atribuicao(self.atual_token, 'BOOLEANO') == False:
                 raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
              else:
                 self.prox_token()
 
         elif self.atual_token[0] == 'STRING':
-            if self.semantica.verificar_atribuicao(self.atual_token) == False:
+            if self.semantica.verificar_atribuicao(self.atual_token, 'STRING') == False:
                 raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
             else:
                 self.prox_token()
