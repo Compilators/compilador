@@ -11,13 +11,14 @@ class Semantica:
 
     def verificar_atribuicao(self, nome_variavel, tipo_valor):
         tabelaSimbolos = TabelaDeSimbolos() 
-
+        
         valor_variavel = nome_variavel[1]
-
-        lexema_variavel = tabelaSimbolos.obter_nome_por_valor(valor_variavel)
-
-        print(f'Nome da variavel: {lexema_variavel}')
-
+        nome_variavel_tabela = tabelaSimbolos.obter_nome_por_valor(valor_variavel)
+        lexema_variavel = tabelaSimbolos.obter_lexema(nome_variavel_tabela)
+        
+        print(f'Nome variavel: {nome_variavel_tabela}')
+        print(f'Lexema variavel: {lexema_variavel}')
+        
         if lexema_variavel is None:
             return True 
         else:

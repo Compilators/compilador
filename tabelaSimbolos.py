@@ -19,23 +19,18 @@ class TabelaDeSimbolos:
     @staticmethod
     def obter_nome_por_valor(valor):
         with open("tabela_simbolos.txt", 'r') as arquivo:
-            linhas = arquivo.readlines()
-
-        for linha in reversed(linhas):
-            partes = linha.split(':')
-            if len(partes) >= 5:
-                if partes[4].strip().strip("{'").strip("'}") == valor:
-                    indice = linhas.index(linha)
-                    nome_variavel = linhas[indice - 1].split(':')[0].strip()
-                    return nome_variavel
+            for linha in arquivo:
+                if re.search(f"{valor}", linha):
+                    return linha.split(':')[0]
         return None
+
 
     @staticmethod
     def obter_tipo(nome):
         with open("tabela_simbolos.txt", 'r') as arquivo:
             for linha in arquivo:
                 if re.search(f"^{nome}:", linha):
-                    return linha.split(':')[2].strip()
+                    return linha.split 
         return None
         
     @staticmethod
