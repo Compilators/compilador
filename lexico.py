@@ -5,6 +5,10 @@ def analisador_lexico(codigo_fonte):
     linha = 1
     length = len(codigo_fonte)
 
+    verificaLexema = lambda valor: 'NUMERO' if valor.isdigit() else 'BOOLEANO' if valor == 'verdadeiro' or valor == 'falso' else 'STRING'
+
+    verificaValor = lambda palavra: tabela_simbolos[palavra]['VALOR'] if palavra in tabela_simbolos else None
+
     while pos < length:
         while codigo_fonte[pos] in ' \t':
             pos += 1
@@ -117,6 +121,7 @@ def analisador_lexico(codigo_fonte):
 
             if palavra in tabela_simbolos:
                 tokens.append((tabela_simbolos[palavra]['TIPO'], palavra, f'linha: {linha}'))
+                # tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': verificaValor(palavra), 'LEXEMA': verificaLexema(palavra)}
             else:
                 valor = None
                 lexema = None
