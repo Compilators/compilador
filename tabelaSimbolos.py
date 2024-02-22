@@ -17,6 +17,16 @@ class TabelaDeSimbolos:
             self.tabela[nome] = {'tipo': tipo, 'linha': linha}
     
     @staticmethod
+    def contaOcorrencias(self, nome):
+        contador = 0
+        if nome in self.tabela:
+            contador += 1
+        if nome + '_nova' in self.tabelaSimbolos():
+            contador += 1
+        return contador
+        
+    
+    @staticmethod
     def obter_nome_por_valor(valor):
         with open("tabela_simbolos.txt", 'r') as arquivo:
             for linha in arquivo:

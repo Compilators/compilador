@@ -1,3 +1,5 @@
+import re
+
 def analisador_lexico(codigo_fonte):
     tokens = []
     tabela_simbolos = {}
@@ -5,9 +7,49 @@ def analisador_lexico(codigo_fonte):
     linha = 1
     length = len(codigo_fonte)
 
-    verificaLexema = lambda valor: 'NUMERO' if valor.isdigit() else 'BOOLEANO' if valor == 'verdadeiro' or valor == 'falso' else 'STRING'
+    def verificaLexema(palavra):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                if re.search(f"^{palavra}:", linha):
+                    partes = linha.split(':')
+                    if len(partes) >= 5:
+                        return partes[4].strip().strip("{'").strip("'}")
+        return None
 
-    verificaValor = lambda palavra: tabela_simbolos[palavra]['VALOR'] if palavra in tabela_simbolos else None
+    def armazenaValor(palavra):
+        posicaoInicialValor = codigo_fonte.find(palavra)
+        if posicaoInicialValor != -1:  # Se a palavra foi encontrada no código-fonte
+            posicaoInicialValor += len(palavra)  # Avança para o caractere após a palavra
+            while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
+                posicaoInicialValor += 1  # Avança sobre espaços em branco
+                if codigo_fonte[posicaoInicialValor] == '=':
+                    posicaoInicialValor += 1  # Avança sobre o caractere '='
+                    while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
+                        posicaoInicialValor += 1  # Avança sobre espaços em branco
+                        if codigo_fonte[posicaoInicialValor].isdigit():
+                            posicaoFinalValor = posicaoInicialValor
+                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                posicaoFinalValor += 1
+                            return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
+                        elif codigo_fonte[posicaoInicialValor] == '"':
+                            posicaoFinalValor = posicaoInicialValor + 1
+                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                posicaoFinalValor += 1
+                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                return codigo_fonte[posicaoInicialValor:posicaoFinalValor + 1]  # Retorna a string incluindo as aspas
+                        elif codigo_fonte[posicaoInicialValor].isalpha():
+                            posicaoFinalValor = posicaoInicialValor
+                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                posicaoFinalValor += 1
+                            return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
+                        elif codigo_fonte[posicaoInicialValor] in ('+', '-', '*', '/'):
+                            posicaoFinalValor = posicaoInicialValor + 1
+                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                posicaoFinalValor += 1
+                            return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
+                        posicaoInicialValor += 1
+        return None
+
 
     while pos < length:
         while codigo_fonte[pos] in ' \t':
@@ -121,7 +163,8 @@ def analisador_lexico(codigo_fonte):
 
             if palavra in tabela_simbolos:
                 tokens.append((tabela_simbolos[palavra]['TIPO'], palavra, f'linha: {linha}'))
-                # tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': verificaValor(palavra), 'LEXEMA': verificaLexema(palavra)}
+                nova_palavra = f"{palavra}_nova"
+                tabela_simbolos[nova_palavra] = {'TIPO': tipo, 'VALOR': armazenaValor(palavra), 'LEXEMA': verificaLexema(palavra)}
             else:
                 valor = None
                 lexema = None
