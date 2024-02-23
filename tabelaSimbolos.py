@@ -60,6 +60,14 @@ class TabelaDeSimbolos:
                 if re.search(f"^{nome}:", linha):
                     return linha.split(':')[3].strip()
         return None
+    
+    @staticmethod
+    def obter_variavel_atribuicao(nome):
+        with open("tabela_simbolos.txt", 'r') as arquivo:
+            for linha in arquivo:
+                if re.search(f"^{nome}:", linha):
+                    return linha.split(':')[1].strip()
+        return None
 
     def imprimir_tabela(self):
         print('\n')

@@ -3,13 +3,14 @@ class Semantica:
     def __init__(self):
         self.tabela = {}
 
-    def verificar_parametros(self, nome_funcao, linha):
+    def verificar_parametros(self, nome_variavel):
         pass 
 
-    def verificar_retorno(self, nome_funcao, linha):
+    def verificar_retorno(self, nome_variavel):
         pass
 
     def verificar_atribuicao(self, nome_variavel, tipo_valor):
+
         tabelaSimbolos = TabelaDeSimbolos() 
 
         valor_variavel = nome_variavel[1]
@@ -17,6 +18,10 @@ class Semantica:
         nome_variavel_tabela = tabelaSimbolos.obter_nome_por_valor(valor_variavel)
         
         lexema_variavel = tabelaSimbolos.obter_lexema(nome_variavel_tabela)
+
+        if tipo_valor == 'VARIAVEL':
+            print('VARIAVEL + ',nome_variavel, '|', tipo_valor)
+            return True
         
         if lexema_variavel is None:
             return True 
@@ -29,21 +34,3 @@ class Semantica:
                 return True
             else:
                 return False
-
-    def verificar_condicional(self, condicao, linha):
-        pass
-
-    def verificar_interromper(self, linha):
-        pass
-
-    def verificar_continuar(self, linha):
-        pass
-
-    def verificar_imprimir(self, valor, linha):
-        pass 
-
-    def verificar_booleano(self, nome_variavel, linha):
-        pass 
-
-    def verificar_inteiro(self, nome_variavel, linha):
-        pass

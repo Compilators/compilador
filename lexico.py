@@ -17,15 +17,15 @@ def analisador_lexico(codigo_fonte):
         return None
 
     def armazenaValor(palavra):
-        posicaoInicialValor = codigo_fonte.find(palavra)
-        if posicaoInicialValor != -1:  # Se a palavra foi encontrada no código-fonte
-            posicaoInicialValor += len(palavra)  # Avança para o caractere após a palavra
+        posicaoInicialValor = codigo_fonte.find(palavra) 
+        if posicaoInicialValor != -1: 
+            posicaoInicialValor += len(palavra) 
             while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
-                posicaoInicialValor += 1  # Avança sobre espaços em branco
+                posicaoInicialValor += 1 
                 if codigo_fonte[posicaoInicialValor] == '=':
-                    posicaoInicialValor += 1  # Avança sobre o caractere '='
+                    posicaoInicialValor += 1 
                     while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
-                        posicaoInicialValor += 1  # Avança sobre espaços em branco
+                        posicaoInicialValor += 1 
                         if codigo_fonte[posicaoInicialValor].isdigit():
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
@@ -36,7 +36,7 @@ def analisador_lexico(codigo_fonte):
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
                                 posicaoFinalValor += 1
                             if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
-                                return codigo_fonte[posicaoInicialValor:posicaoFinalValor + 1]  # Retorna a string incluindo as aspas
+                                return codigo_fonte[posicaoInicialValor:posicaoFinalValor + 1]  
                         elif codigo_fonte[posicaoInicialValor].isalpha():
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
