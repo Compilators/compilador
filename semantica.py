@@ -20,7 +20,7 @@ class Semantica:
         lexema_variavel = tabelaSimbolos.obter_lexema(nome_variavel_tabela)
 
         if tipo_valor == 'VARIAVEL':
-            print('VARIAVEL + ',nome_variavel, '|', tipo_valor)
+            # print('VARIAVEL + ',nome_variavel, '|', tipo_valor)
             return True
         
         if lexema_variavel is None:
