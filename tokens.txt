@@ -27,6 +27,12 @@ ID: a
 MAIS: +
 ID: b
 FECHA_CHAVE: }
+ID: variavel_inteira
+ATRIBUICAO: =
+NUMERO: 100
+ID: variavel_booleana
+ATRIBUICAO: =
+NUMERO: 50
 ID: imprimir_ola
 ABRE_PARENTESE: (
 FECHA_PARENTESE: )
@@ -63,9 +69,6 @@ FECHA_CHAVE: }
 ID: contador
 ATRIBUICAO: =
 NUMERO: 0
-ID: variavel_inteira
-ATRIBUICAO: =
-STRING: teste
 ENQUANTO: enquanto
 ABRE_PARENTESE: (
 ID: contador
@@ -111,10 +114,9 @@ FECHA_CHAVE: }
 ID: MINHA_CONSTANTE
 ATRIBUICAO: =
 STRING: Esta e uma constante
-IMPRIMIR: imprimir
-ABRE_PARENTESE: (
 ID: MINHA_CONSTANTE
-FECHA_PARENTESE: )
+ATRIBUICAO: =
+NUMERO: 1
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
 STRING: Variavel booleana: {variavel_booleana}
@@ -122,7 +124,7 @@ FECHA_PARENTESE: )
 ID: resultado_aritmetico
 ATRIBUICAO: =
 ABRE_PARENTESE: (
-ID: variavel_inteira
+NUMERO: 5
 MAIS: +
 ID: resultado
 FECHA_PARENTESE: )

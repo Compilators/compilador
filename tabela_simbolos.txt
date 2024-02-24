@@ -1,19 +1,10 @@
-variavel_inteira: {'TIPO': 'ID', 'VALOR': '55', 'LEXEMA': 'NUMERO'}
-variavel_booleana: {'TIPO': 'ID', 'VALOR': 'verdadeiro', 'LEXEMA': 'BOOLEANO'}
-imprimir_ola: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
-somar: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
-a: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
-b: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
-a_nova: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'None'}
-b_nova: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'None'}
-imprimir_ola_nova: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'None'}
-resultado: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-resultado_nova: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-somar_nova: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'None'}
-contador: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-variavel_inteira_nova: {'TIPO': 'ID', 'VALOR': '55', 'LEXEMA': 'NUMERO'}
-contador_nova: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': 'STRING'}
-MINHA_CONSTANTE_nova: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': 'STRING'}
+variavel_inteira: {'TIPO': 'ID', 'VALOR': '100', 'LEXEMA': 'NUMERO'}
+variavel_booleana: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'NUMERO'}
+imprimir_ola: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'NUMERO'}
+somar: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'NUMERO'}
+a: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'NUMERO'}
+b: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'NUMERO'}
+resultado: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
+contador: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
+MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': '1', 'LEXEMA': 'STRING'}
 resultado_aritmetico: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': None}
-resultado_aritmetico_nova: {'TIPO': 'ID', 'VALOR': None, 'LEXEMA': 'None'}
