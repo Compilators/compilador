@@ -6,22 +6,9 @@ def analisador_lexico(codigo_fonte):
     pos = 0
     linha = 1
     length = len(codigo_fonte)
-    
-    lexema = None
-
-    def verificaLexema(palavra):
-        with open("tabela_simbolos.txt", 'r') as arquivo:
-            for linha in arquivo:
-                if re.search(f"^{palavra}:", linha):
-                    partes = linha.split(':')
-                    if len(partes) >= 5:
-                        return partes[4].strip().strip("{'").strip("'}")
-        return None
 
     def armazenaValor(palavra):
-        
         posicaoInicialValor = codigo_fonte.rfind(palavra)
-        print(posicaoInicialValor, palavra)
         if posicaoInicialValor != -1: 
             posicaoInicialValor += len(palavra) 
             while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
@@ -34,21 +21,18 @@ def analisador_lexico(codigo_fonte):
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
                                 posicaoFinalValor += 1
-                            lexema = 'NUMERO'
                             return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
                         elif codigo_fonte[posicaoInicialValor] == '"':
                             posicaoFinalValor = posicaoInicialValor + 1
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
                                 posicaoFinalValor += 1
                             if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
-                                lexema = 'STRING'  
                                 return codigo_fonte[posicaoInicialValor:posicaoFinalValor + 1]  
                         elif codigo_fonte[posicaoInicialValor].isalpha():
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
                                 posicaoFinalValor += 1
                             if codigo_fonte[posicaoInicialValor:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicaoInicialValor:posicaoFinalValor] == 'falso':
-                                lexema = 'BOOLEANO'
                                 return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
                         elif codigo_fonte[posicaoInicialValor] in ('+', '-', '*', '/'):
                             posicaoFinalValor = posicaoInicialValor + 1
@@ -171,7 +155,7 @@ def analisador_lexico(codigo_fonte):
 
             if palavra in tabela_simbolos:
                 tokens.append((tabela_simbolos[palavra]['TIPO'], palavra, f'linha: {linha}'))
-                tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': armazenaValor(palavra), 'LEXEMA': lexema}
+                tabela_simbolos[palavra] = {'TIPO': tipo, 'VALOR': armazenaValor(palavra)}
             else:
                 valor = None
                 lexema = None
@@ -231,6 +215,20 @@ def analisador_lexico(codigo_fonte):
         else:
             raise Exception(f"Erro: Caractere invalido '{codigo_fonte[pos]}' na posicao {pos+1}")
     
+    def verificaLexema(palavra):
+        if palavra.isnumeric():
+            return 'NUMERO'
+        elif palavra == 'verdadeiro' or palavra == 'falso':
+            return 'BOOLEANO'
+        elif palavra[0] == '"' and palavra[-1] == '"':
+            return 'STRING'
+        else:
+            return 'None'
+        
+    for palavra, atributos in tabela_simbolos.items():
+        if atributos['VALOR'] != None:
+            tabela_simbolos[palavra]['LEXEMA'] = verificaLexema(atributos['VALOR'])
+
     with open("tabela_simbolos.txt", 'w') as tabela_file:
         for palavra, atributos in tabela_simbolos.items():
             tabela_file.write(f"{palavra}: {atributos}\n")
