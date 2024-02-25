@@ -287,12 +287,29 @@ class Sintatico:
     def tratar_atribuicao(self):
         if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
                 self.prox_token()
-                while self.atual_token in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
-                    self.prox_token()
-                    if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
-                        raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
-                    else:
+                
+                if self.atual_token != None:
+                    while self.atual_token[0] in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
                         self.prox_token()
+                        if self.atual_token[0] != 'NUMERO' and self.atual_token[0] != 'ID':
+                            raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
+                        else:
+                            self.prox_token()
+                    if self.atual_token[0] == "ABRE_PARENTESE":
+                        self.prox_token()
+                        while self.atual_token[0] != "FECHA_PARENTESE":
+                            if self.atual_token[0] == "ID":
+                                self.prox_token()
+                            elif self.atual_token[0] == "NUMERO":
+                                self.prox_token()
+                            elif self.atual_token[0] == "VIRGULA":
+                                self.prox_token()
+                            else:
+                                raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
+                        self.prox_token()
+                
+                
+                    
 
         elif self.atual_token[0] == 'ABRE_PARENTESE':
             self.prox_token()
