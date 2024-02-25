@@ -9,12 +9,14 @@ def analisador_lexico(codigo_fonte):
 
     def armazenaValor(palavra):
         posicaoInicialValor = codigo_fonte.rfind(palavra)
+        posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicaoInicialValor - (len(palavra) + 1)) 
         if posicaoInicialValor != -1: 
             posicaoInicialValor += len(palavra) 
             while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
-                posicaoInicialValor += 1 
-                if codigo_fonte[posicaoInicialValor] == '=':
-                    posicaoInicialValor += 1 
+                posicaoInicialValor += 1
+                posicao -= 1 
+                if codigo_fonte[posicaoInicialValor] == '=' and codigo_fonte[posicaoInicialValor + 1] != '=':
+                    posicaoInicialValor += 1
                     while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
                         posicaoInicialValor += 1 
                         if codigo_fonte[posicaoInicialValor].isdigit():
@@ -40,19 +42,75 @@ def analisador_lexico(codigo_fonte):
                                 posicaoFinalValor += 1
                             return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
                         posicaoInicialValor += 1
-                elif codigo_fonte[posicaoInicialValor] != '=':
-                    penultimaAparicaoVariavel(palavra, posicaoInicialValor)
-        return None
-    
+                else:
+                    posicao += len(palavra) + 2
+                    print(codigo_fonte[posicao],palavra)
+                    while (codigo_fonte[posicao] == "=" or codigo_fonte[posicao] == "+" or codigo_fonte[posicao] == '"') and codigo_fonte[posicao + 1] == "=":
+                        posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
+                        posicao += len(palavra) + 1
+                        if codigo_fonte[posicao] == '"':
+                            posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
+                            posicao += len(palavra) + 1
+                            if codigo_fonte[posicao] == '<':
+                                posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
+                                posicao += len(palavra) + 1
+                        if posicao != -1:
+                                if codigo_fonte[posicao] == '=' and  codigo_fonte[posicao + 1] != '=':
+                                    posicao += 1
+                                    while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
+                                        posicao += 1
+                                        if codigo_fonte[posicao].isdigit():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] == '"':
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                                posicaoFinalValor += 1
+                                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                                return codigo_fonte[posicao:posicaoFinalValor + 1]  
+                                        elif codigo_fonte[posicao].isalpha():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                                posicaoFinalValor += 1
+                                            if codigo_fonte[posicao:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicao:posicaoFinalValor] == 'falso':
+                                                return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] in ('+', '-', '*', '/'):
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        posicao += 1
+                    if posicao != -1:
+                                if codigo_fonte[posicao] == '=' and  codigo_fonte[posicao + 1] != '=':
+                                    posicao += 1
+                                    while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
+                                        posicao += 1
+                                        if codigo_fonte[posicao].isdigit():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] == '"':
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                                posicaoFinalValor += 1
+                                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                                return codigo_fonte[posicao:posicaoFinalValor + 1]  
+                                        elif codigo_fonte[posicao].isalpha():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                                posicaoFinalValor += 1
+                                            if codigo_fonte[posicao:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicao:posicaoFinalValor] == 'falso':
+                                                return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] in ('+', '-', '*', '/'):
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        posicao += 1
 
-    def penultimaAparicaoVariavel(palavra, posicao):
-        posicaoFinal = codigo_fonte.rfind(palavra, 0, posicao-1)
-        if posicaoFinal != -1:
-            posicaoInicial = posicaoFinal - 1
-            while posicaoInicial >= 0 and codigo_fonte[posicaoInicial] != '\n':
-                if codigo_fonte[posicaoInicial:posicaoInicial + len(palavra)] == palavra:
-                    return codigo_fonte[posicaoInicial:posicaoInicial + len(palavra)]
-                posicaoInicial -= 1
         return None
 
 
