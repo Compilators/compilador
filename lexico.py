@@ -8,15 +8,15 @@ def analisador_lexico(codigo_fonte):
     length = len(codigo_fonte)
 
     def armazenaValor(palavra):
-        posicaoInicialValor = codigo_fonte.rfind(palavra) 
+        posicaoInicialValor = codigo_fonte.rfind(palavra)
         if posicaoInicialValor != -1: 
             posicaoInicialValor += len(palavra) 
             while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
                 posicaoInicialValor += 1 
                 if codigo_fonte[posicaoInicialValor] == '=':
-                    posicaoInicialValor += 1
+                    posicaoInicialValor += 1 
                     while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
-                        posicaoInicialValor += 1
+                        posicaoInicialValor += 1 
                         if codigo_fonte[posicaoInicialValor].isdigit():
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
@@ -40,6 +40,19 @@ def analisador_lexico(codigo_fonte):
                                 posicaoFinalValor += 1
                             return codigo_fonte[posicaoInicialValor:posicaoFinalValor]
                         posicaoInicialValor += 1
+                elif codigo_fonte[posicaoInicialValor] != '=':
+                    penultimaAparicaoVariavel(palavra, posicaoInicialValor)
+        return None
+    
+
+    def penultimaAparicaoVariavel(palavra, posicao):
+        posicaoFinal = codigo_fonte.rfind(palavra, 0, posicao-1)
+        if posicaoFinal != -1:
+            posicaoInicial = posicaoFinal - 1
+            while posicaoInicial >= 0 and codigo_fonte[posicaoInicial] != '\n':
+                if codigo_fonte[posicaoInicial:posicaoInicial + len(palavra)] == palavra:
+                    return codigo_fonte[posicaoInicial:posicaoInicial + len(palavra)]
+                posicaoInicial -= 1
         return None
 
 
