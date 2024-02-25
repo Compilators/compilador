@@ -48,9 +48,12 @@ def analisador_lexico(codigo_fonte):
                         if codigo_fonte[posicao] == '"':
                             posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
                             posicao += len(palavra) + 1
-                            if codigo_fonte[posicao] == '<':
+                            if codigo_fonte[posicao] == '<': 
                                 posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
                                 posicao += len(palavra) + 1
+                        if codigo_fonte[posicao] == ')':
+                            posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
+                            posicao += len(palavra) + 1
                         if posicao != -1:
                                 if codigo_fonte[posicao] == '=' and codigo_fonte[posicao + 1] != '=':
                                     posicao += 1

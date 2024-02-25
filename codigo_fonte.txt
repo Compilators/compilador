@@ -4,28 +4,19 @@ variavel_booleana = verdadeiro
 
 palavra = "Esta e uma constante"
 
+resultado = 10
+
 funcao imprimir_ola(){
     imprimir("Ola, Mundo!")
 }
 
 imprimir_ola()
 
-resultado = 10
-
-resultado -= 5
-
-se (resultado > 10){
-    imprimir("Resultado e maior que 10.")
-}
-senao{
-    imprimir("Resultado e 10 ou menor.")
-}
-
 contador = 0
 
 variavel_inteira = "teste"
 
-enquanto (contador < resultado){
+enquanto (contador < 10){
     imprimir("Contando: {contador}")
     contador += 1
 
@@ -45,7 +36,7 @@ imprimir("Variavel booleana: {variavel_booleana}")
 
 resultado_aritmetico = 5 * 2
 
-resultado_aritmetico += resultado 
+resultado_aritmetico += contador 
 
 se (resultado_aritmetico == 10){
     imprimir("Alguma condicao booleana foi atendida.")
