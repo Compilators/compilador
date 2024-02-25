@@ -8,15 +8,15 @@ def analisador_lexico(codigo_fonte):
     length = len(codigo_fonte)
 
     def armazenaValor(palavra):
-        posicaoInicialValor = codigo_fonte.rfind(palavra)
+        posicaoInicialValor = codigo_fonte.rfind(palavra) 
         if posicaoInicialValor != -1: 
             posicaoInicialValor += len(palavra) 
             while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
                 posicaoInicialValor += 1 
                 if codigo_fonte[posicaoInicialValor] == '=':
-                    posicaoInicialValor += 1 
+                    posicaoInicialValor += 1
                     while posicaoInicialValor < len(codigo_fonte) and codigo_fonte[posicaoInicialValor] in ' \t':
-                        posicaoInicialValor += 1 
+                        posicaoInicialValor += 1
                         if codigo_fonte[posicaoInicialValor].isdigit():
                             posicaoFinalValor = posicaoInicialValor
                             while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
