@@ -1,5 +1,3 @@
-import re
-
 def analisador_lexico(codigo_fonte):
     tokens = []
     tabela_simbolos = {}
@@ -44,7 +42,6 @@ def analisador_lexico(codigo_fonte):
                         posicaoInicialValor += 1
                 else:
                     posicao += len(palavra) + 2
-                    print(codigo_fonte[posicao],palavra)
                     while (codigo_fonte[posicao] == "=" or codigo_fonte[posicao] == "+" or codigo_fonte[posicao] == '"') and codigo_fonte[posicao + 1] == "=":
                         posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
                         posicao += len(palavra) + 1
@@ -55,7 +52,88 @@ def analisador_lexico(codigo_fonte):
                                 posicao = codigo_fonte.rfind(palavra, codigo_fonte.find(palavra), posicao - (len(palavra) - 1))
                                 posicao += len(palavra) + 1
                         if posicao != -1:
-                                if codigo_fonte[posicao] == '=' and  codigo_fonte[posicao + 1] != '=':
+                                if codigo_fonte[posicao] == '=' and codigo_fonte[posicao + 1] != '=':
+                                    posicao += 1
+                                    while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
+                                        posicao += 1
+                                        if codigo_fonte[posicao].isdigit():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] == '"':
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                                posicaoFinalValor += 1
+                                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                                return codigo_fonte[posicao:posicaoFinalValor + 1]  
+                                        elif codigo_fonte[posicao].isalpha():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                                posicaoFinalValor += 1
+                                            if codigo_fonte[posicao:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicao:posicaoFinalValor] == 'falso':
+                                                return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] in ('+', '-', '*', '/'):
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        posicao += 1
+                                elif codigo_fonte[posicao] == '+' and codigo_fonte[posicao + 1] == '=':
+                                    posicao += 1
+                                    while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
+                                        posicao += 1
+                                        if codigo_fonte[posicao].isdigit():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] == '"':
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                                posicaoFinalValor += 1
+                                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                                return codigo_fonte[posicao:posicaoFinalValor + 1]  
+                                        elif codigo_fonte[posicao].isalpha():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                                posicaoFinalValor += 1
+                                            if codigo_fonte[posicao:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicao:posicaoFinalValor] == 'falso':
+                                                return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] in ('+', '-', '*', '/'):
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        posicao += 1
+                                elif codigo_fonte[posicao] == '-' and codigo_fonte[posicao + 1] == '=':
+                                    posicao += 1
+                                    while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
+                                        posicao += 1
+                                        if codigo_fonte[posicao].isdigit():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor].isdigit():
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] == '"':
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] != '"':
+                                                posicaoFinalValor += 1
+                                            if posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] == '"':
+                                                return codigo_fonte[posicao:posicaoFinalValor + 1]  
+                                        elif codigo_fonte[posicao].isalpha():
+                                            posicaoFinalValor = posicao
+                                            while posicaoFinalValor < len(codigo_fonte) and (codigo_fonte[posicaoFinalValor].isalnum() or codigo_fonte[posicaoFinalValor] == '_'):
+                                                posicaoFinalValor += 1
+                                            if codigo_fonte[posicao:posicaoFinalValor] == 'verdadeiro' or codigo_fonte[posicao:posicaoFinalValor] == 'falso':
+                                                return codigo_fonte[posicao:posicaoFinalValor]
+                                        elif codigo_fonte[posicao] in ('+', '-', '*', '/'):
+                                            posicaoFinalValor = posicao + 1
+                                            while posicaoFinalValor < len(codigo_fonte) and codigo_fonte[posicaoFinalValor] in ('+', '-', '*', '/', ' '):
+                                                posicaoFinalValor += 1
+                                            return codigo_fonte[posicao:posicaoFinalValor]
+                                        posicao += 1
+                                elif codigo_fonte[posicao] == '*' and codigo_fonte[posicao + 1] == '=':
                                     posicao += 1
                                     while posicao < len(codigo_fonte) and codigo_fonte[posicao] in ' \t':
                                         posicao += 1
@@ -266,13 +344,14 @@ def analisador_lexico(codigo_fonte):
                                 posicaoValor = 0
                                 lexema = 'STRING'
                                 break
-                            # elif codigo_fonte[posicaoValor] == '+' or codigo_fonte[posicaoValor] == '-' or codigo_fonte[posicaoValor] == '*' or codigo_fonte[posicaoValor] == '/':
-                            #     posicaoValor += 1
-                            #     while posicaoValor < length and codigo_fonte[posicaoValor] != '\n':
-                            #         posicaoValor += 1
-                            #     valor = codigo_fonte[posicaoValor:posicaoFinal]
-                            #     posicaoValor = 0
-                            #     break
+                            elif codigo_fonte[posicaoValor] == '+' or codigo_fonte[posicaoValor] == '-' or codigo_fonte[posicaoValor] == '*' or codigo_fonte[posicaoValor] == '/':
+                                posicaoValor += 1
+                                while posicaoValor < length and codigo_fonte[posicaoValor] != '\n':
+                                    posicaoValor += 1
+                                valor = codigo_fonte[posicaoValor:posicaoFinal]
+                                posicaoValor = 0
+                                lexema = 'NUMERO'
+                                break
                         break
 
                 if tipo == 'ID':

@@ -4,6 +4,9 @@ NUMERO: 55
 ID: variavel_booleana
 ATRIBUICAO: =
 BOOLEANO: verdadeiro
+ID: palavra
+ATRIBUICAO: =
+STRING: Esta e uma constante
 FUNCAO: funcao
 ID: imprimir_ola
 ABRE_PARENTESE: (
@@ -14,33 +17,15 @@ ABRE_PARENTESE: (
 STRING: Ola, Mundo!
 FECHA_PARENTESE: )
 FECHA_CHAVE: }
-FUNCAO: funcao
-ID: somar
-ABRE_PARENTESE: (
-ID: a
-VIRGULA: ,
-ID: b
-FECHA_PARENTESE: )
-ABRE_CHAVE: {
-RETORNAR: retornar
-ID: a
-MAIS: +
-ID: b
-FECHA_CHAVE: }
 ID: imprimir_ola
 ABRE_PARENTESE: (
 FECHA_PARENTESE: )
 ID: resultado
 ATRIBUICAO: =
-NUMERO: 0
+NUMERO: 10
 ID: resultado
 ATRIBUICAO: =
-ID: somar
-ABRE_PARENTESE: (
-NUMERO: 3
-VIRGULA: ,
-NUMERO: 4
-FECHA_PARENTESE: )
+NUMERO: 5
 SE: se
 ABRE_PARENTESE: (
 ID: resultado
@@ -108,12 +93,9 @@ FECHA_PARENTESE: )
 INTERROMPER: interromper
 FECHA_CHAVE: }
 FECHA_CHAVE: }
-ID: MINHA_CONSTANTE
-ATRIBUICAO: =
-STRING: Esta e uma constante
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
-ID: MINHA_CONSTANTE
+STRING: A variavel palavra tem o seguinte conteudo: {palavra}
 FECHA_PARENTESE: )
 IMPRIMIR: imprimir
 ABRE_PARENTESE: (
@@ -121,17 +103,13 @@ STRING: Variavel booleana: {variavel_booleana}
 FECHA_PARENTESE: )
 ID: resultado_aritmetico
 ATRIBUICAO: =
-ABRE_PARENTESE: (
-ID: variavel_inteira
-MAIS: +
-ID: resultado
-FECHA_PARENTESE: )
-MENOS: -
 NUMERO: 5
 VEZES: *
 NUMERO: 2
-DIVIDE: /
-NUMERO: 2
+ID: resultado_aritmetico
+VEZES: *
+ATRIBUICAO: =
+ID: resultado
 SE: se
 ABRE_PARENTESE: (
 ID: resultado_aritmetico

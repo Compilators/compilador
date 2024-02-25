@@ -1,10 +1,7 @@
 variavel_inteira: {'TIPO': 'ID', 'VALOR': '"teste"', 'LEXEMA': 'STRING'}
 variavel_booleana: {'TIPO': 'ID', 'VALOR': 'verdadeiro', 'LEXEMA': 'BOOLEANO'}
+palavra: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': 'STRING'}
 imprimir_ola: {'TIPO': 'ID', 'VALOR': None}
-somar: {'TIPO': 'ID', 'VALOR': None}
-a: {'TIPO': 'ID', 'VALOR': None}
-b: {'TIPO': 'ID', 'VALOR': None}
 resultado: {'TIPO': 'ID', 'VALOR': None}
-contador: {'TIPO': 'ID', 'VALOR': '0', 'LEXEMA': 'NUMERO'}
-MINHA_CONSTANTE: {'TIPO': 'ID', 'VALOR': None}
-resultado_aritmetico: {'TIPO': 'ID', 'VALOR': None}
+contador: {'TIPO': 'ID', 'VALOR': '1', 'LEXEMA': 'NUMERO'}
+resultado_aritmetico: {'TIPO': 'ID', 'VALOR': '5', 'LEXEMA': 'NUMERO'}

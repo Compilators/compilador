@@ -1,19 +1,18 @@
 variavel_inteira = 55
+
 variavel_booleana = verdadeiro
+
+palavra = "Esta e uma constante"
 
 funcao imprimir_ola(){
     imprimir("Ola, Mundo!")
 }
 
-funcao somar(a, b){
-    retornar a + b
-}
-
 imprimir_ola()
 
-resultado = 0
+resultado = 10
 
-resultado = somar(3, 4)
+resultado -= 5
 
 se (resultado > 10){
     imprimir("Resultado e maior que 10.")
@@ -40,13 +39,13 @@ enquanto (contador < resultado){
     }
 }
 
-MINHA_CONSTANTE = "Esta e uma constante"
-
-imprimir(MINHA_CONSTANTE)
+imprimir("A variavel palavra tem o seguinte conteudo: {palavra}")
 
 imprimir("Variavel booleana: {variavel_booleana}")
 
-resultado_aritmetico = (variavel_inteira + resultado) - 5 * 2 / 2
+resultado_aritmetico = 5 * 2
+
+resultado_aritmetico += resultado 
 
 se (resultado_aritmetico == 10){
     imprimir("Alguma condicao booleana foi atendida.")
