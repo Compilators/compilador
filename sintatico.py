@@ -285,7 +285,10 @@ class Sintatico:
             raise Exception(f"Erro: Token inesperado {self.atual_token} apos a chamada da função {identifier}.")
 
     def tratar_atribuicao(self):
-        if self.atual_token[0] == 'NUMERO' or self.atual_token[0] == 'ID':
+        if self.atual_token[0] == 'NUMERO':
+            if self.semantica.verificar_atribuicao(self.atual_token, 'NUMERO') == False:
+                raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
+            else:
                 self.prox_token()
                 while self.atual_token in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
                     self.prox_token()
@@ -293,12 +296,22 @@ class Sintatico:
                         raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
                     else:
                         self.prox_token()
-
+        elif self.atual_token[0] == 'ID':
+            if self.semantica.verificar_atribuicao(self.atual_token, 'VARIAVEL') == False:
+                raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
+            else:
+                self.prox_token()
+                while self.atual_token in ['MAIS', 'MENOS', 'VEZES', 'DIVIDE']:
+                    self.prox_token()
+                    if self.atual_token[0] != 'NUMERO' or self.atual_token[0] != 'ID':
+                        raise Exception(f"Erro: Expressao invalida apos a atribuicao de numero. {self.atual_token}")
+                    else:
+                        self.prox_token()
         elif self.atual_token[0] == 'ABRE_PARENTESE':
             self.prox_token()
             while self.atual_token[0] != 'FECHA_PARENTESE':
                 self.prox_token()
-                if self.atual_token[0] in ['NUMERO']:
+                if self.atual_token[0] == ['NUMERO']:
                     if self.semantica.verificar_atribuicao(self.atual_token, 'NUMERO') == False:
                         raise Exception(f"Erro: Atribuicao invalida. {self.atual_token}")
                     else:

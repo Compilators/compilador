@@ -10,7 +10,7 @@ class Semantica:
         pass
 
     def verificar_atribuicao(self, nome_variavel, tipo_valor):
-
+        print('nome_variavel', nome_variavel, 'tipo_valor', tipo_valor)
         tabelaSimbolos = TabelaDeSimbolos() 
 
         valor_variavel = nome_variavel[1]
