@@ -30,7 +30,7 @@ imprimir("Variavel booleana: {variavel_booleana}")
 
 resultado_aritmetico = 5 * 2
 
-resultado_aritmetico += palavra 
+resultado_aritmetico += contador 
 
 se (resultado_aritmetico == 10){
     imprimir("Alguma condicao booleana foi atendida.")
