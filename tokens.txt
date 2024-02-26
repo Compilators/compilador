@@ -74,7 +74,7 @@ NUMERO: 2
 ID: resultado_aritmetico
 MAIS: +
 ATRIBUICAO: =
-ID: contador
+ID: palavra
 SE: se
 ABRE_PARENTESE: (
 ID: resultado_aritmetico

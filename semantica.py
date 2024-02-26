@@ -19,8 +19,11 @@ class Semantica:
         lexema_variavel = tabelaSimbolos.obter_lexema(nome_variavel_tabela)
 
         if tipo_valor == 'VARIAVEL':
-            # print('VARIAVEL + ',nome_variavel, '|', tipo_valor)
-            return True
+            lexema_variavel = tabelaSimbolos.obter_lexema(nome_variavel_tabela)
+            if lexema_variavel is None:
+                return False
+            elif lexema_variavel == 'NUMERO' or lexema_variavel == 'STRING' or lexema_variavel == 'BOOLEANO':
+                return True
         
         if lexema_variavel is None:
             return True 

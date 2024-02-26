@@ -1,6 +1,6 @@
 variavel_inteira: {'TIPO': 'ID', 'VALOR': '"teste"', 'LEXEMA': 'STRING'}
 variavel_booleana: {'TIPO': 'ID', 'VALOR': 'verdadeiro', 'LEXEMA': 'BOOLEANO'}
-palavra: {'TIPO': 'ID', 'VALOR': '"Esta e uma constante"', 'LEXEMA': 'STRING'}
+palavra: {'TIPO': 'ID', 'VALOR': None}
 resultado: {'TIPO': 'ID', 'VALOR': '10', 'LEXEMA': 'NUMERO'}
 contador: {'TIPO': 'ID', 'VALOR': '1', 'LEXEMA': 'NUMERO'}
 resultado_aritmetico: {'TIPO': 'ID', 'VALOR': '5', 'LEXEMA': 'NUMERO'}
