@@ -6,12 +6,6 @@ palavra = "Esta e uma constante"
 
 resultado = 10
 
-funcao imprimir_ola(){
-    imprimir("Ola, Mundo!")
-}
-
-imprimir_ola()
-
 contador = 0
 
 variavel_inteira = "teste"

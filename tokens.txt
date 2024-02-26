@@ -10,19 +10,6 @@ STRING: Esta e uma constante
 ID: resultado
 ATRIBUICAO: =
 NUMERO: 10
-FUNCAO: funcao
-ID: imprimir_ola
-ABRE_PARENTESE: (
-FECHA_PARENTESE: )
-ABRE_CHAVE: {
-IMPRIMIR: imprimir
-ABRE_PARENTESE: (
-STRING: Ola, Mundo!
-FECHA_PARENTESE: )
-FECHA_CHAVE: }
-ID: imprimir_ola
-ABRE_PARENTESE: (
-FECHA_PARENTESE: )
 ID: contador
 ATRIBUICAO: =
 NUMERO: 0
